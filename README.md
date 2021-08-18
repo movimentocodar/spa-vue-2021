@@ -61,8 +61,11 @@ Para isso clique em `Contribute` e `Open Pull Request`. Depois basta confirmar a
 Disponibilize o seu projeto através da [Vercel](https://vercel.com/) seguindo os passos:
 
 - Faça o login/crie a sua conta (Utilize sua conta do GitHub)
+- Configure as permissões de acesso aos repositórios
 - Clique em New Project
-- WIP...
+- Em *Import Git Repository* clique em *Import* no projeto
+- Mantenha as configurações padrão e clique em *Deploy*
+- Aguarde o processo terminar e o projeto irá aparecer no seu dashboard 
 
 No comentário do Pull Request adicione o link da sua aplicação gerado após o deploy na Vercel.
 
