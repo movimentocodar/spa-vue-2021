@@ -1,13 +1,19 @@
 <template>
+<div class="principal">
+    <div class="destaques">
+      <h2 class="destaques__titulo">Destaques</h2>
+      <input type="search" class="filtro" v-on:input="filtro = $event.target.value" placeholder="Busque pelo nome" />
+    </div>
     <ul class="produtos">
-        <li v-for="produto in produtos" class="lista-produto">
+        <li v-for="produto in produtosComFiltro" class="lista-produto">
             <img :src="produto.imagem" class="lista-produto__imagem" />
             <h3 class="lista-produto__nome">{{ produto.nome }}</h3>
             <p class="lista-produto__valor">{{ produto.valor }}</p>
             <input class="lista-produto__quantidade" type="number" min="0">
-            <input class="lista-produto__comprar" type="submit" value="Comprar">
+            <input class="lista-produto__comprar" type="button" value="Comprar" v-adicionar-carrinho>
         </li>
     </ul>
+</div>
 </template>
 
 <script>
@@ -58,18 +64,54 @@ export default{
                     valor: 28.50
                 }
 
-            ]
+            ],
+            filtro: ''
         }
+    },
+    computed: {
+
+        produtosComFiltro(){
+
+            if(this.filtro){
+                let exp = new RegExp(this.filtro.trim(), 'i');
+                return this.produtos.filter(produto => exp.test(produto.nome));
+            }else{
+                return this.produtos
+            }
+            
+        }
+
     }
 }
 </script>
 
 <style scoped>
+.principal{
+    width: 60%;
+}
+
+.destaques{
+    display: grid;
+    padding: 0 2.5em;
+    width: 90%;
+}
+
+.destaques__titulo{
+    font-weight: bold;
+    font-size: 2em;
+    padding: 0.5em 0;
+    margin: 0;
+}
+
+.filtro{
+    margin: 0 0 1em 0.5em;
+    padding: 0.5em;
+}
+
 .produtos{
     display: flex;
     flex-wrap: wrap;
     align-items: stretch;
-    width: 60%;
 }
 
 .lista-produto{

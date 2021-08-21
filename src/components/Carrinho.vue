@@ -1,10 +1,17 @@
 <template>
     <section class="carrinho">
         <h3 class="carrinho__titulo">{{ name }}</h3>
+
+        <ul class="carrinho__produtos-selecionados">
+            <li class="nenhum-produto">Nenhum produto adicionado!</li>
+        </ul>
+
+        <div class="caixa">
+            <p class="carrinho__valor-total">Valor Total: R$ <span data-valor-total>0.00</span></p>
+            <p class="carrinho__quantidade-total">Quantidade total: <span data-qtd-total>0</span></p>
+        </div>
         
-        <p class="carrinho__valor-total"></p>
-        <p class="carrinho__quantidade-total"></p>
-        <input class="carrinho__finalizar" type="submit" value="Finalizar" />
+        <input class="carrinho__finalizar" type="submit" value="Finalizar" v-finalizar-carrinho />
     </section>
 </template>
 
