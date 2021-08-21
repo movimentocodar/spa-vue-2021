@@ -1,32 +1,55 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div class="cabecalho">
+
+      <h1><img src="./assets/logo.png" class="cabecalho__conteudo__logo"></h1>
+      <div id="nav">        
+        <router-link to="/">Home</router-link> |
+        <router-link to="/contato">Contato</router-link>
+      </div>
+      <nav class="cabecalho__menu">
+        <ul>
+          <li><img src="imagens/perfil.png" class="cabecalho__menu__img-perfil"></li>
+          <li><p class="cabecalho__menu__nome-perfil">Admin</p></li>
+        </ul>
+      </nav>
+
     </div>
     <router-view/>
   </div>
 </template>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap');
+body{
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    padding:0;
+    margin:0;
 }
 
-#nav {
-  padding: 30px;
+.cabecalho{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
+.cabecalho__conteudo__logo{
+    height: auto;
+    width: 200px;    
 }
 
-#nav a.router-link-exact-active {
-  color: #42b983;
+.cabecalho__menu ul{
+    align-items: center;
+    display: flex;
+    list-style-type:none;
+}
+
+.cabecalho__menu__img-perfil{
+    width: 3em;
+}
+
+.cabecalho__menu__nome-perfil{
+    font-weight: bold;
 }
 </style>
