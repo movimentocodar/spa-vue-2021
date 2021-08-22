@@ -1,7 +1,7 @@
-const API_BASE = './Items.json'
+const LocalJsonApi = './Items.json'
 
 const basicFetch = async () => {
-    const req = await fetch (`${API_BASE}`)
+    const req = await fetch (`${LocalJsonApi}`)
     
     const json = await req.json();
     json.then(console.log(json), '')

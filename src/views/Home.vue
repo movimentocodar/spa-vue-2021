@@ -17,12 +17,14 @@ import LabelCategoria from '../components/sub-components/LabelCategoria.vue'
 export default {
   data(){
     return{
-      "items": ItemsDb
+      "items": ItemsDb,
     }
   },
   components:{
     "shopcard": ShopItems,
     "label-category": LabelCategoria
+  },
+  methods:{
   }
   
 }

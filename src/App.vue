@@ -12,11 +12,18 @@ import Header from './components/Header.vue'
 export default {
   components:{
     'header-component': Header
+  },
+
+  data(){
+    return{
+    }
+  },
+
+  created(){
   }
   
 }
 </script>
 
 <style>
-
 </style>

@@ -13,6 +13,7 @@
 
 <script>
 import ApiProfile from '../../database/ApiProfile';
+import Login from '../../database/Login'
 
 export default {
     
@@ -20,18 +21,23 @@ export default {
     data(){
         return{
             user : '',
-            profileInfo : ''
+            profileInfo : '',
+            login: new Login()
         }
     },
     created(){
-
         // const userProfile = ApiProfile.getUser(this.user)
         // userProfile.then(profileInfo => this.profileInfo = profileInfo, err => console.log(err))
     },
     methods:{
         logar(){
-            const userProfile = ApiProfile.getUser(this.user)
-            userProfile.then(profileInfo => this.profileInfo = profileInfo, err => console.log(err))
+            if(this.user){
+                const userProfile = ApiProfile.getUser(this.user)
+                userProfile.then(profileInfo => this.profileInfo = profileInfo, err => console.log(err))
+                this.login = new Login(this.user)
+                const createDb = CarrinhoService.createDb(this.login)
+                createDb.then(()=> console.log('foi'), err => console.log(err))
+            }
         }
     }
 }

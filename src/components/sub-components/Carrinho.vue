@@ -1,6 +1,6 @@
 <template>
     <div>
-        <router-link :to="{name: 'CarrinhoCompra'}" ><img class="invert" src="https://image.flaticon.com/icons/png/512/126/126510.png"><span>1</span></router-link>
+        <router-link :to="{name: 'CarrinhoCompra'}" ><img class="invert" src="https://image.flaticon.com/icons/png/512/126/126510.png"><span>{{ $store.cart.items.length }}</span></router-link>
     </div>
 </template>
 
@@ -21,12 +21,13 @@ span{
     background-color: tomato;
     position: absolute;
     color: white;
-    /* display: inline-block; */
+        /* display: inline-block; */
     width: 20px;
     height: 20px;
     border-radius: 10px;
-    line-height: 18px;
-    display: none;
+    line-height: 20px;
+    text-align: center;
+    /* display: none; */
 
 }
 

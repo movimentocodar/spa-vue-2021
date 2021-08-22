@@ -11,7 +11,10 @@
             <div class="divtotal"><span class="total">{{ total() }}</span></div>
             <button @click="sub()" class="btn-sub">-</button>
           </div>
-          <btn-carrinho class="btn-carrinho"></btn-carrinho>
+          <btn-carrinho 
+          @click.native="$store.cart.add(cart(produto.nome,produto.imagem,qnt,produto.preco,produto.estoque,produto._key))" 
+          class="btn-carrinho">
+          </btn-carrinho>
         </div>
         <label-category title="Descrição"></label-category>
         <div class="desc">{{produto.desc}}</div>
@@ -36,7 +39,6 @@ export default {
             id: this.$route.params.id,
             qnt: this.$route.params.qnt,
             produto: [],
-            carrinho: new ClassCarrinho(),
         }
     },
 
@@ -64,6 +66,12 @@ export default {
         if(this.qnt > 1){
           this.qnt -= 1
         }
+      },
+      grava(){
+
+      },
+      cart(nm, img, qnt, prec, est, id){
+        return new ClassCarrinho(nm, img, parseInt(qnt), prec, parseInt(est), id)
       }
     },
 

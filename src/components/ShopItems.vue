@@ -40,7 +40,7 @@ export default {
     data(){
         return{
             quantidade: 1,
-            warning: 'Quantidade invalida!'
+            warning: 'Quantidade invalida!',
         }
     },
 

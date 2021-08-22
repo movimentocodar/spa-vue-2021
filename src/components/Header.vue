@@ -40,7 +40,7 @@ h1 {
 
 .carrinho {
     display: inline;
-    margin-right: 10px;
+    margin-right: 30px;
 }
 
 .contato {
