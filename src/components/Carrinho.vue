@@ -25,7 +25,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .carrinho{
     background: #baa0d7;
     border-top-left-radius: 5px;
@@ -46,6 +46,39 @@ export default {
     font-weight: bold;
     margin-top: 0;
     padding: 1em;
+}
+
+.carrinho__produtos-selecionados li{
+  list-style-type:none;
+}
+
+.produto-selecionado{
+  margin-top: 0.5em;
+}
+
+.produto-selecionado__imagem{
+  margin-right: 0.5em;
+  width: 5em;
+  vertical-align: middle;
+}
+
+.produto-selecionado__nomeEQuantidade{
+  display: inline-block;
+}
+
+.produto-selecionado__nomeEQuantidade__titulo{    
+  font-weight: bold;
+  margin: 0;
+}
+.produto-selecionado__nomeEQuantidade__quantidade{
+  padding-top: 0.2em;
+  margin:0;
+}
+
+.produto-selecionado__deletar{
+  float: right;
+  padding: 1em;
+  width: 1.2em;
 }
 
 .carrinho__valor-total{

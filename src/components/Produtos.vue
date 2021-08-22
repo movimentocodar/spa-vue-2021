@@ -2,7 +2,7 @@
 <div class="principal">
     <div class="destaques">
       <h2 class="destaques__titulo">Destaques</h2>
-      <input type="search" class="filtro" v-on:input="filtro = $event.target.value" placeholder="Busque pelo nome" />
+      <input type="search" class="filtro" @input="filtro = $event.target.value" placeholder="Busque pelo nome" />
     </div>
     <ul class="produtos">
         <li v-for="produto in produtosComFiltro" class="lista-produto">
