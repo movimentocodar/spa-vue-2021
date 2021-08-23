@@ -1,9 +1,9 @@
 <template>
     <div class="search" >
-        <input type="search" class="search-input" v-model="filtro"  @input="filtro = $event.target.value" placeholder="Busque aqui">
+        <input @blur="limpar()" type="search" class="search-input" v-model="filtro"  @input="filtro = $event.target.value" placeholder="Busque aqui">
             <div class="list-group">
-                <div @click="limpar()" v-for="itens of search" :key="itens._key" class="itemdropdown">
-                    <router-link :to="{name: 'PreCarrinho', params: {qnt: 1, id: itens._key}}" :key="$route.fullPath" ><img class="item-icon" :src="itens.imagem"><span class="short">{{ itens.nome }}</span></router-link>
+                <div v-for="itens of search" :key="itens._key" class="itemdropdown">
+                    <router-link @mousedown.native="gotoroute(itens._key)" :to="{name: 'PreCarrinho', params: {qnt: 1, id: itens._key}}" ><img class="item-icon" :src="itens.imagem"><span class="short">{{ itens.nome }}</span></router-link>
                 </div>
             </div>
         <button><img class="btn-busca" src="https://image.flaticon.com/icons/png/512/16/16492.png"></button>
@@ -36,6 +36,13 @@ export default {
         limpar(){
            this.filtro = ''
         },
+        
+        gotoroute(key){
+            this.$router.push({
+            name: 'PreCarrinho', 
+            params: { qnt: 1, id: key}
+        });
+        }
     }
 }
 </script>
