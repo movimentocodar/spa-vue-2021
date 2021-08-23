@@ -34,7 +34,11 @@ const inserirProdutoCarrinho = (produtoSelecionado) =>{
     const produtoQtd = produtoSelecionado.querySelector('.lista-produto__quantidade').value;
 
     const nenhumProduto = document.querySelector('.nenhum-produto');
-    nenhumProduto.style.display = 'none';
+    if(listaProdutosCarrinho.hasChildNodes()){
+        if(nenhumProduto != null){
+            nenhumProduto.remove();
+        }
+    }
 
     const htmlPreco = document.querySelector('[data-valor-total]');
     const htmlQtd = document.querySelector('[data-qtd-total]');
@@ -70,6 +74,13 @@ const inserirProdutoCarrinho = (produtoSelecionado) =>{
         htmlQtd.innerHTML = qtdTotal;
 
         linha.remove();
+        if(!listaProdutosCarrinho.hasChildNodes()){
+            let nenhumProdutoTexto = document.createElement('li');
+            nenhumProdutoTexto.innerHTML = 'Nenhum produto adicionado!';
+            nenhumProdutoTexto.classList.add('nenhum-produto');
+
+            listaProdutosCarrinho.appendChild(nenhumProdutoTexto);
+        }
     });
 
 
