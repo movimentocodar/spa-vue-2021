@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="home">
     <div id="nav">
       <header-component></header-component>
     </div>
@@ -20,3 +20,10 @@ export default {
   },
 }
 </script>
+<style>
+@media (max-width: 500px) {
+  body {
+    width: fit-content;
+  }
+}
+</style>

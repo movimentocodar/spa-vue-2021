@@ -1,5 +1,5 @@
 <template>
-  <div id="home">
+  <div>
     <div class="item-menu">
       <label-category title="Destaques"></label-category>
       <span v-for="(itemsdb) in items" :key="itemsdb._key">
