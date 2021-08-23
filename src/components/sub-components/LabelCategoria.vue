@@ -1,7 +1,7 @@
 <template>
-  <div class="card">
-      <h2>{{ title }}</h2>
-  </div>
+    <div class="card">
+        <h2>{{ title }}</h2>
+    </div>
 </template>
 
 <script>
@@ -12,12 +12,12 @@ export default {
 
 <style scoped>
 .card {
-    background-color: steelblue;
-    border: 1px solid red;
+    background-color: transparent;
     height: 40px;
-    border: 1px solid royalblue;
+    border-top: 4px solid steelblue;
+    border-bottom: 4px solid steelblue;
     text-align: center;
-    border-radius: 5px;
+
 }
 
 h2{
@@ -25,7 +25,6 @@ h2{
     font-weight: bold;
     font-size: 22px;
     font-family: Arial, Helvetica, sans-serif;
-    color: white;
+    color: steelblue;
 }
-
 </style>

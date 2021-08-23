@@ -6,6 +6,7 @@
         <shopcard :nome="itemsdb.nome" :preco="itemsdb.preco" :estoque="itemsdb.estoque" :imagem="itemsdb.imagem" :_key="itemsdb._key"></shopcard>
       </span>
     </div>
+    <footer-component></footer-component>
   </div>
 </template>
 
@@ -13,6 +14,7 @@
 import ShopItems from '../components/ShopItems.vue'
 import ItemsDb from '../database/Items.json'
 import LabelCategoria from '../components/sub-components/LabelCategoria.vue'
+import Footer from '../components/Footer.vue'
 
 export default {
   data(){
@@ -20,24 +22,20 @@ export default {
       "items": ItemsDb,
     }
   },
+
   components:{
     "shopcard": ShopItems,
-    "label-category": LabelCategoria
-  },
-  methods:{
+    "label-category": LabelCategoria,
+    "footer-component": Footer
   }
-  
 }
 </script>
 
 <style scoped>
-
 .item-menu{
   width: 848px;
-  /* border: 1px solid red; */
   margin: auto;
   margin-top: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 70px;
 }
-
 </style>

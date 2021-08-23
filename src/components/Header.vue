@@ -9,6 +9,7 @@
         <profile></profile>
     </div>
 </template>
+
 <script>
 import Search from './sub-components/Search.vue'
 import Carrinho from './sub-components/Carrinho.vue'
@@ -28,8 +29,8 @@ export default {
         "carrinho" : Carrinho,
         "profile" : Profile,
         "contato" : Contato
-    }
-    
+    },
+
 }
 </script>
 <style scoped>
@@ -49,6 +50,7 @@ h1 {
 
 .info {
     min-width: 125px;
+    margin-left: 60px;
 }
 
 .header {

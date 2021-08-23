@@ -1,21 +1,29 @@
 <template>
     <div class="container">
-        <label-category :title="produto.nome"></label-category>
+        <!-- <label-category :title="produto.nome"></label-category> -->
         <div class="produto">
+          
           <img :src="produto.imagem">
-          <div class="divpreco">
-            <div class="estoque">Disponivel: {{produto.estoque}} unid.</div>
-            <button @click="sum(produto.estoque)" class="btn-add">+</button>
-            <div><span class="precoitem">{{ produto.preco }}</span> x {{ qnt }}</div>
-            <hr>
-            <div class="divtotal"><span class="total">{{ total() }}</span></div>
-            <button @click="sub()" class="btn-sub">-</button>
+          <div class="info-produto">
+            <div class="stats"><estrela class="stars" :stars="produto.estrelas"/><avaliacoes :avaliacoes="produto.avaliacoes"/></div>
+            
+            <h2>{{ produto.nome }}</h2>
+            <div class="divpreco">
+              <div class="estoque">Disponivel: {{produto.estoque}} unid.</div>
+              <button @click="sum(produto.estoque)" class="btn-add">+</button>
+              <div><span class="precoitem">{{ produto.preco }}</span> x {{ qnt }}</div>
+              <hr>
+              <div class="divtotal"><span class="total">{{ total() }}</span></div>
+              <button @click="sub()" class="btn-sub">-</button>
+            </div>
           </div>
-          <btn-carrinho 
-          @click.native="$store.cart.add(cart(produto.nome,produto.imagem,qnt,produto.preco,produto.estoque,produto._key))" 
-          class="btn-carrinho">
-          </btn-carrinho>
         </div>
+        <btn-carrinho 
+          @click.native="$store.cart.add(
+            cart(produto.nome,produto.imagem,qnt,
+            produto.preco,produto.estoque,produto._key))"
+            class="btn-carrinho"
+          />
         <label-category title="Descrição"></label-category>
         <div class="desc">{{produto.desc}}</div>
     </div>
@@ -26,11 +34,15 @@ import ItemsDb from '../database/Items.json'
 import LabelCategoria from '../components/sub-components/LabelCategoria.vue'
 import BotaoAddCarrinho from '../components/sub-components/BotaoAddCarrinho.vue'
 import ClassCarrinho from '../database/ClassCarrinho'
+import Estrelas from '../components/sub-components/Estrelas.vue'
+import Avaliacoes from '../components/sub-components/Avaliacoes.vue'
 
 export default {
     components:{
         "label-category": LabelCategoria,
-        "btn-carrinho": BotaoAddCarrinho
+        "btn-carrinho": BotaoAddCarrinho,
+        "estrela": Estrelas,
+        "avaliacoes": Avaliacoes
     },
 
     data(){
@@ -67,9 +79,7 @@ export default {
           this.qnt -= 1
         }
       },
-      grava(){
 
-      },
       cart(nm, img, qnt, prec, est, id){
         return new ClassCarrinho(nm, img, parseInt(qnt), prec, parseInt(est), id)
       }
@@ -94,10 +104,25 @@ export default {
 </script>
 
 <style scoped>
-
 h2{
-    font-size: 36px;
+    font-size: 20px;
     font-weight: bold;
+    width: 400px;
+}
+
+.stars{
+  width: fit-content;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.info-produto{
+  display: flex;
+  flex-direction: column;
+}
+
+.stats{
+  margin-bottom: 5px;
 }
 
 .estoque{
@@ -128,7 +153,6 @@ h2{
   border-radius: 10px;
   color: white;
   font-size: 22px;
-  
   background-color: rgb(223, 87, 63);
 }
 
@@ -150,7 +174,8 @@ h2{
 
 .divpreco{
   margin: auto;
-  font-size: 36px;
+  margin-right: 0;
+  font-size: 20px;
   font-weight: bold;
   color: rgb(123, 185, 0);
 }
@@ -171,23 +196,20 @@ h2{
 }
 
 .container{
-    /* border: 1px solid steelblue; */
-    font-family: Arial, Helvetica, sans-serif;
-    width: 848px;
-  /* border: 1px solid red; */
-    margin: auto;
+  font-family: Arial, Helvetica, sans-serif;
+  width: 848px;
+  margin: auto;
   margin-top: 10px;
   margin-bottom: 10px;
 }
 
 img {
     width: 400px;
-    /* border-right: 1px solid steelblue; */
 }
 
 .produto{
   display: flex;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
+  justify-content: space-between;
 }
-
 </style>

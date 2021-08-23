@@ -11,6 +11,7 @@
 
 <script>
 import BotaoComprar from './sub-components/BotaoCompra.vue'
+
 export default {
     components:{
         "btn-comprar": BotaoComprar
@@ -57,7 +58,6 @@ export default {
 
 <style scoped>
 .item {
-    /* border: 1px solid red; */
     width: 200px;
     text-align: center;
     border: 1px solid steelblue;
@@ -69,12 +69,10 @@ export default {
 }
 
 img{
-    /* border: 1px solid red; */
     width: 175px;
 }
 
 .item-name {
-    /* display: block; */
     font-size: 18px;
     font-weight: bold;
     overflow: hidden;
@@ -99,5 +97,4 @@ img{
 .item-preco::before {
     content: "R$ ";
 }
-
 </style>

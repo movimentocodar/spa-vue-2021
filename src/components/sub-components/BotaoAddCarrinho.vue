@@ -4,12 +4,6 @@
     </button>
 </template>
 
-<script>
-export default {
-
-}
-</script>
-
 <style scoped>
 .btn-carrinho {
     height: 40px;

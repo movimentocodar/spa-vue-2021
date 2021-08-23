@@ -18,12 +18,5 @@ export default {
     return{
     }
   },
-
-  created(){
-  }
-  
 }
 </script>
-
-<style>
-</style>
