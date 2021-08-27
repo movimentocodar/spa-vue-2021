@@ -71,5 +71,5 @@ No comentário do Pull Request adicione o link da sua aplicação gerado após o
 
 ## :trophy: Finalizaram o desafio :trophy:
 
-<a href="https://github.com/Jand-S"><img width="50" height="50" src="https://github.com/Jand-S.png"></img></a>
-<a href="https://github.com/feehvecch"><img width="50" height="50" src="https://github.com/feehvecch.png"></img></a>
+<a href="https://spa-vue-2021-jand-s.vercel.app/"><img width="50" height="50" src="https://github.com/Jand-S.png"></img></a>
+<a href="https://spa-vue-2021-nine.vercel.app/"><img width="50" height="50" src="https://github.com/feehvecch.png"></img></a>
