@@ -1,22 +1,22 @@
 <template>
     <div>
-        <subtitle :pagetitle="'Contatos'" :visivel="false"></subtitle>       
+        <subtitle :pagetitle="'Contato'" :visivel="false"></subtitle>       
         <div class="page-content">
             <section class="content-section">
                 <form @submit.prevent="grava()">
-                    <div>
-                        <label for="email">Email</label>
-                        <input v-model="contato.email" id="email">
+                    <div class="set-email">
+                        <label for="email">Email</label><br>
+                        <input class="input-email" v-model="contato.email" id="email">
+                    </div>
+
+                    <div class="set-mensagem">
+                        <label for="mensagem">Mensagem</label><br>
+                        <textarea class="input-mensagem" v-model="contato.mensagem" id="mensagem"></textarea>
                     </div>
 
                     <div>
-                        <label for="mensagem">Mensagem</label>
-                        <textarea v-model="contato.mensagem" id="mensagem"></textarea>
-                    </div>
-
-                    <div>
-                        <button type="submit" class="addcart-button">Enviar</button>
                         <router-link to="/"><button class="addcart-button">Voltar</button></router-link>
+                        <button type="submit" class="addcart-button">Enviar</button>
                     </div>
                 </form>
             </section>
@@ -53,6 +53,10 @@ export default {
 
 <style>
 
+label {
+    width:50px;
+}
+
 .page-content{
 	background: #EDE8DB;
 }
@@ -62,6 +66,28 @@ export default {
 	height: auto;
 	margin: 0 auto;
 	padding: 70px 0;
+}
+
+.input-email {
+    width:393px;
+    height:40px;
+    padding:5px 10px;
+    margin: 10px;
+}
+
+.input-mensagem{
+    width:393px;
+    padding:10px;
+    height:107px;
+    margin: 10px;
+}
+
+form .addcart-button{
+    margin:10px 10px 0 10px;
+}
+
+.set-email, .set-mensagem{
+    display:block;
 }
 </style>
 

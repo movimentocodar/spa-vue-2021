@@ -25,20 +25,21 @@
                     
                     <button class="button-cart" data-button-cart @click="ButtonShowCart">
                         <img src="../assets/shopping-cart.png" class="img-cart">
-                        <p class="cart-number" data-cart-number><!--{{ cartnumber }}--></p>
-                        <p class="cart-title">Meu carrinho</p>
+                        <p class="cart-number" data-cart-number>{{ cartnumber }}</p>
+                        <p class="cart-title"> Meu carrinho</p>
                     </button>
                 </section>
             </div>
         </header>
         <div class="hiddencart" data-hidden-cart>
-            <cart> <!--v-on:attCartNumber="attCartNumber()"--></cart>
+            <cart v-show="cartShow"></cart>
         </div>
     </div></div>
 </template>
 
 <script>
 import cart from '../components/Cart.vue';
+import { mapState, mapActions, mapGetters } from 'vuex';
 
 export default {
     components: {
@@ -48,7 +49,26 @@ export default {
     data(){
         return{
             profgit: [],
-            //cartnumber: this.$refs.cart.cartnumber
+            cartnumber: 0,
+            cartShow: false
+        }
+    },
+
+    computed: {
+        ...mapGetters({
+        numcart: 'getNumCart',
+        showcart: 'getShowCart'
+        }),
+    },
+
+    watch: {
+        'numcart': function (newN, oldN) {
+            this.cartnumber = newN;
+            console.log('watcher numcart do header');
+        },
+
+        'showcart': function (newN, oldN) {
+            this.cartShow = newN;
         }
     },
 
@@ -61,12 +81,12 @@ export default {
         .then(res => res.json())
         .then(resjs => this.profgit = resjs, err => console.log(err))
     },
+    
+    destroyed(){
+        window.removeEventListener("resize", this.positionCart);
+    },
 
     methods: {
-        attCartNumber: function(){
-           //cartnumber: this.$refs.cart.cartnumber
-        },
-
         positionCart: function () {
             const HiddenCart = document.querySelector('[data-hidden-cart]'),
             buttonCart = document.querySelector('[data-button-cart]');
@@ -75,17 +95,10 @@ export default {
         },
 
         ButtonShowCart: function (event) {
-            //this.showCart = true;
             event.preventDefault();
+            this.$store.dispatch("changeShowCart",true);
             this.positionCart();
-            //this.updateCart();
-        },
-
-        ButtonHiddenCart: function (event) {
-            event.preventDefault();
-
-            //this.showCart = false;
-        }
+        }        
     }
 }
 
@@ -181,7 +194,7 @@ nav li a:hover, .social-name:hover{
 	display:inline;
 	position:relative;
 	top:-9px;
-	left:-2px;
+	left:0px;
 	font-weight:bold;
 }
 

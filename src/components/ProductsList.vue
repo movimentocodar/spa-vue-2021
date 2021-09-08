@@ -23,107 +23,117 @@
 <script>
 import imgadd from '../assets/add.png';
 import imgtrash from '../assets/trash-can.png';
+import { mapState, mapActions, mapGetters } from 'vuex';
+import modProd from "../api/prod.js";
 
 export default {
-        data() {
+    data() {
         return{
+            cartnumber: 0,
             imgadd: imgadd,
             imgtrash: imgtrash,
-            emptyCart: localStorage.Cart? false : true,
             searchNotFound: false,
             arBuild: [],
-            // name, descr, price, id, img
-            arProd: [
-                {name:'Dolce Gusto Caffé Matinal',img:require('../assets/products/dolcegusto-caffematinal.webp'),descr:'Intensidade 9',price:23.9,id:0, outCart:true, qty:0},        
-                {name:'Dolce Gusto Alpino',img:require('../assets/products/dolcegusto-alpino.webp'),descr:'Intensidade 8',price:23.9,id:1, outCart:true, qty:0},
-                {name:'Dolce Gusto Caseiro Intenso',img:require('../assets/products/dolcegusto-caseirointenso.webp'),descr:'Intensidade 10',price:23.9,id:2, outCart:true, qty:0},
-                {name:'Dolce Gusto Au Lait',img:require('../assets/products/dolcegusto-aulait.webp'),descr:'Café com leite',price:23.9,id:3, outCart:true, qty:0},
-                {name:'Dolce Gusto Espresso',img:require('../assets/products/dolcegusto-espresso.webp'),descr:'Intensidade 8',price:23.9,id:4, outCart:true, qty:0},
-                {name:'Melitta Sabor da Fazenda',img:require('../assets/products/melitta.jpg'),descr:'Intensidade 7',price:15.9,id:5, outCart:true, qty:0},
-                {name:'Innovare Tradicional',img:require('../assets/products/innovare.jpg'),descr:'Intensidade 7',price:15.9,id:6, outCart:true, qty:0},
-                {name:'Nespresso Colombia',img:require('../assets/products/colombiaespresso.jpg'),descr:'Intensidade 9',price:25.9,id:7, outCart:true, qty:0},
-                {name:'Nespresso Cafézinho',img:require('../assets/products/nespresso-cafezinhodobrasil.webp'),descr:'Intensidade 5',price:25.9,id:8, outCart:true, qty:0},
-                {name:'Caneca Sakura Starbucks',img:require('../assets/products/caneca01.jpg'),descr:'Material em cerâmica',price:55.9,id:9, outCart:true, qty:0},
-                {name:'Caneca Preta',img:require('../assets/products/caneca-preta.webp'),descr:'Material em cerâmica',price:33.9,id:10, outCart:true, qty:0}
-                ]
+            arCart: [],
+            arProd: [],
+            arGenSearch: ""
         }
     },
 
-    created(){        
-        this.arBuild = this.arProd;
+    computed: {
+        ...mapGetters({
+        search: 'getSearch',
+        cart: 'getCart',
+        numcart: 'getNumCart',
+        }),
+    },
 
-        if(JSON.parse(window.sessionStorage.getItem("Cart")) !== ""){
-            generateProductList();
-        }
+    created(){        
+        this.arProd = modProd.getArProd();
+        this.arBuild = this.arProd;
+        this.arCart = this.cart;
+
+        this.generateProductList();
+    },
+
+    watch: {
+        'search': function () {
+            console.log("watcher searc do product list");
+            this.generateProductList();
+        },
+
+        'cart': function (newCart, oldCart) {
+            console.log("watcher cart do product listm, novo valor:");
+            this.arCart = newCart;
+            console.log(this.arCart);
+            this.generateProductList();
+        },
+        
+        'numcart': function (newN, oldN) {
+            console.log("watcher numcart do product list");
+            this.cartnumber = newN;
+            this.generateProductList();
+        },
     },
 
     methods: {
 
-       // products -> cart  @buildCart="buildCart()" @updateCart="updateCart()" @resetSessionCart="resetSessionCart()"
-       // cart -> products addCart addProd  delProd editProdInput
-
         addCart: function (event) {   
+            console.log("add cart product list");
             event.preventDefault();
 
             var i = this.findThisID(this.arBuild, event.target.id);
 
             this.arBuild[i].outCart = false;
-            if (JSON.parse(window.sessionStorage.getItem("Cart")) !== ""){
-                var arCart = JSON.parse(window.sessionStorage.getItem("Cart"));
-                arCart.push({id:this.arBuild[i].id, qty:1, price:this.arBuild[i].price, name:this.arBuild[i].name, img:this.arBuild[i].img});
+            if (this.arCart !== ""){
+                this.arCart.push({id:this.arBuild[i].id, qty:1, price:this.arBuild[i].price, name:this.arBuild[i].name, img:this.arBuild[i].img});
             } else {
-                var arCart = [{id:this.arBuild[i].id, qty:1, price:this.arBuild[i].price, name:this.arBuild[i].name, img:this.arBuild[i].img}];
+                this.arCart = [{id:this.arBuild[i].id, qty:1, price:this.arBuild[i].price, name:this.arBuild[i].name, img:this.arBuild[i].img}];
             }          
-         
-            window.sessionStorage.setItem("Cart", JSON.stringify(arCart));
+        
             this.arBuild[i].qty = 1;
-            //EMIT
-    		this.$emit('buildCart');
+            console.log(this.arBuild[i].id + " id , qty " + this.arBuild[i].qty);
+
+            this.$store.dispatch("changeCart",this.arCart);
         },
 
         addProd: function (event) { 
+            console.log("add prod product list");
             event.preventDefault();
             this.editProd(-100, event.target.id);
         },
 
         delProd: function (event) { 
+            console.log("del prod product list");
             event.preventDefault();
             this.delProdTrashCan(event.target.id);
         },
 
         delProdTrashCan: function (targetID) { 
-            if(JSON.parse(window.sessionStorage.getItem("Cart")) !== ""){
-                var arCart = JSON.parse(window.sessionStorage.getItem("Cart")),
-                deletedIndex = this.findThisID(arCart, targetID);
+            console.log("delprodtrashcan product list");
+            if(this.arCart !== ""){
+                var arBuildIndex = this.findThisID(this.arBuild, targetID);
+                this.arBuild[arBuildIndex].outCart = true;
 
-                arCart.splice(deletedIndex, 1);
+                var deletedIndex = this.findThisID(this.arCart, targetID);
+                this.arCart.splice(deletedIndex, 1);
 
-                window.sessionStorage.setItem("Cart", JSON.stringify(arCart));
+                this.$store.dispatch("changeCart",this.arCart);
 
-                var i = this.findThisID(this.arBuild, targetID);
-                this.arBuild[i].outCart = true;
-                
-                if(arCart.length === 0){
-                    this.resetSessionCartProd();
-                } else {
-                    if(deletedIndex < 2){
-                        //EMIT
-    		            this.$emit('buildCart');
-                    }else{
-                        //EMIT
-    		            this.$emit('updateCart');     
-                    }
-                }
+                if(this.arCart.length === 0){
+                    this.resetSessionCart();
+                } 
             }
         },
 
-        resetSessionCartProd: function(){
-            this.arBuild = this.arProd;
-            //EMIT
-    		this.$emit('resetSessionCart');
+        resetSessionCart: function(){
+            console.log("reset session cart product list");
+            this.$store.dispatch("changeCart","");
+            this.$store.dispatch("changeNumCart",0);
         },
 
         editProdInput: function (event) { 
+            console.log("edit prod input");
             event.preventDefault();
             var eventTarget = event.target;
             var reg = new RegExp('[0-9](([0-8](\.[0-9]*)?)|[0-9])?');
@@ -166,48 +176,50 @@ export default {
         },
 
         editProd: function(newQty, targetID){
+            console.log("edit prod product list");
             event.preventDefault();
-
-            var arCart = JSON.parse(window.sessionStorage.getItem("Cart"));
-            
-            var i = this.findThisID(arCart, targetID);
+           
+            var i = this.findThisID(this.arCart, targetID);
 
             if(newQty === -100){
-                if(arCart[i].qty === 15){
+                if(this.arCart[i].qty === 15){
                     alert("Limite de 15 unidades por cliente.");
                     newQty = 15;
                 }else{
-                    newQty = arCart[i].qty + 1;
+                    newQty = this.arCart[i].qty + 1;
                 }
             } else if(newQty === 0) {
                 this.delProdTrashCan(targetID);
                 return;
             }
 
-            arCart[i].qty = newQty;
+            this.arCart[i].qty = newQty;
             this.arBuild[this.findThisID(this.arBuild, targetID)].qty = newQty;
             
-            window.sessionStorage.setItem("Cart", JSON.stringify(arCart));
-
-            //EMIT
-            this.$emit('updateCart');    
+            this.$store.dispatch("changeCart",this.arCart);
+            console.log("product list ar cart no edit prod");
+            //PORQUE NESSE PONTO NÃO ATIVA OS WATCHERS?
         },
 
         generateProductList: function () {  
-            var arGenSearch = [];
-            arGenSearch = JSON.parse(window.sessionStorage.getItem("Search"));
+            console.log("generate product list");
+            this.arGenSearch = this.search;
             
-            if(arGenSearch === "notfound"){
+            if(this.arGenSearch === "notfound"){
+                console.log('not found');
                 this.searchNotFound = true;
                 this.arBuild = "";
-            } else if (arGenSearch === ""){
+            } else if (this.arGenSearch === ""){
+                console.log('campo de search vazio');
                 this.searchNotFound = false;
                 this.arBuild = this.arProd;
+                console.log(this.arProd);
             } else {
+                console.log('encontrou alguma coisa no search');
                 this.arBuild = [];
-                for (var i = 0; i < arGenSearch.length; i++) {
+                for (var i = 0; i < this.arGenSearch.length; i++) {
                     for (var x = 0; x < this.arProd.length; x++){
-                        if (arGenSearch[i].id === this.arProd[x].id) {
+                        if (this.arGenSearch[i].id === this.arProd[x].id) {
                             if(this.arBuild){
                                 this.arBuild.push(this.arProd[x]);
                             } else {
@@ -218,19 +230,20 @@ export default {
                 }
                 this.searchNotFound = false;
             }
-
-            if (this.arBuild !== ""){
-                if(JSON.parse(window.sessionStorage.getItem("Cart")) !== ""){
-                    var arCart = JSON.parse(window.sessionStorage.getItem("Cart"));
-                    for(var i = 0; i < arCart.length; i++){
-                        var x = this.findThisID(this.arBuild, i);
-                        if (this.arBuild[x].id == (arCart[i].id).toString()){
-                            this.arBuild[x].outCart = false;
-                            this.arBuild[x].qty = arCart[i].qty;
+            
+            if (this.arBuild.length > 0){
+                if(this.arCart.length > 0){
+                    console.log('entrou em ar build e ar cart reais');
+                    for(var i = 0; i < this.arBuild.length; i++){
+                        var x = this.findThisID(this.arCart, this.arBuild[i].id);
+                        if (x !== undefined){
+                            this.arBuild[i].outCart = false;
+                            this.arBuild[i].qty = this.arCart[x].qty.toString();
+                        } else {
+                            this.arBuild[i].outCart = true;
+                            this.arBuild[i].qty = 0;
                         }
-                    }     
-                    //EMIT
-                    this.$emit('buildCart');       
+                    }    
                 }
             }
         }

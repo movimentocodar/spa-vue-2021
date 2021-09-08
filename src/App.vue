@@ -22,28 +22,6 @@ export default {
     "cfooter": pageFooter
   },
 
-  data() {
-    return{
-      
-    }
-  },
-
-  methods: {
-	  
-	buildCart: function (event) {   
-	  this.$refs.cheader.buildCart();		
-	},
-
-	updateCart: function (event) {  
-	  this.$refs.cheader.updateCart();			
-	},
-
-	resetSessionCart: function (event) { 
-	  this.$refs.cheader.resetSessionCart();			
-	}
-
-  },
-
   head: {
     title: {
       inner: "CoffAroma"
