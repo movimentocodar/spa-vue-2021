@@ -64,7 +64,6 @@ export default {
     watch: {
         'numcart': function (newN, oldN) {
             this.cartnumber = newN;
-            console.log('watcher numcart do header');
         },
 
         'showcart': function (newN, oldN) {

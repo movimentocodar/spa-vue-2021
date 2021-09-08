@@ -8,8 +8,8 @@
                 </tr>
                 <tr>
                     <td>
-                        <div class="prod-name-cart" data-cart-message> Não há nada no carrinho</div>
-                        <div data-cart-content style="display:none;">
+                        <div class="prod-name-cart" v-show="emptyCart" data-cart-message> Não há nada no carrinho</div>
+                        <div data-cart-content v-show="!emptyCart">
                             <div v-for="cart in arHeaderCart" :key="cart.id">
                                 <table>
                                     <tr><td colspan="2" class="prod-name-cart">{{ cart.name }}</td></tr>
@@ -32,8 +32,8 @@
                             </div>
                         </div>
                         <div class="prod-name-cart">
-                            <div data-div-cart-buttons style="display:none;">
-                                <div class="prod-itens" data-cart-qtd style="display:none;">{{ totalitem }}</div>
+                            <div data-div-cart-buttons v-show="!emptyCart">
+                                <div class="prod-itens" data-cart-qtd v-show="showTotal">{{ totalitem }}</div>
                                 <div class="prod-itens">Total: <p class="prod-price-cart" data-total-price>{{ totalprice }}</p></div>
                                 <div><button class="viewcart-button" data-view-cart @click="resetSessionCart">Visualizar carrinho</button></div>
                             </div>
@@ -49,7 +49,6 @@
 import imgadd from '../assets/add.png';
 import imgtrash from '../assets/trash-can.png';
 import { mapState, mapActions, mapGetters } from 'vuex';
-import modProd from "../api/prod.js";
 
 export default {
     data(){
@@ -60,7 +59,9 @@ export default {
             totalitem:0,
             totalprice: 0,
             arCart: [],
-            arHeaderCart: []
+            arHeaderCart: [],
+            emptyCart: true,
+            showTotal: false
         }
     },
 
@@ -75,43 +76,31 @@ export default {
     watch: {
         'cart': function (newCart, oldCart) {
             this.arCart = newCart;
-            console.log("watcher cart do cart");
             this.buildCart();
         },
         
         'numcart': function (newN, oldN) {
             this.cartnumber = newN;
-            console.log("watcher numcart do cart");
             this.buildCart();
         },
     },
 
     methods:{
         checkCart: function () {
-            const divCartMessage = document.querySelector('[data-cart-message]'),
-            divCartContent = document.querySelector('[data-cart-content]'),
-            divCartButtons = document.querySelector('[data-div-cart-buttons]'),
-            showTotalItem = document.querySelector('[data-cart-qtd]');
 
             if(this.arCart.length < 1){
-                divCartMessage.style.display = "block";
-                divCartContent.style.display = "none";
-                divCartButtons.style.display = "none";
-                showTotalItem.style.display = "none";
+                this.emptyCart = true;
             }else {
                 if(this.arCart.length > 2){
-                    showTotalItem.style.display = "block";
+                    this.showTotal = true;
                 } else {
-                    showTotalItem.style.display = "none";
+                    this.showTotal = false;
                 }
-                divCartMessage.style.display = "none";
-                divCartContent.style.display = "block";
-                divCartButtons.style.display = "block";
+                this.emptyCart = false;
             }
         },
 
         buildCart: function () {
-            console.log("build cart");
             if(this.arCart !== ""){
                 this.totalitem = 0;
                 this.totalprice = 0;
@@ -170,12 +159,11 @@ export default {
         },
 
         resetSessionCart: function(){
-            console.log("reset session cart cart");
             this.arHeaderCart = [];
             this.arCart = [];
             this.cartnumber = 0;
 
-            this.$store.dispatch("changeCart","");
+            this.$store.dispatch("changeCart",[]);
             this.$store.dispatch("changeNumCart",0);
             //PORQUE NESSE PONTO NÃO ATIVA OS WATCHERS?
 
@@ -183,19 +171,16 @@ export default {
         },
 
         addProd: function (event) { 
-            console.log("add prod cart");
             event.preventDefault();
             this.editProd(-100, event.target.id);
         },
 
         delProd: function (event) { 
-            console.log("del prod cart");
             event.preventDefault();
             this.delProdTrashCan(event.target.id);
         },
 
         delProdTrashCan: function (targetID) { 
-            console.log("del prod trashcan cart");
             if(this.arCart !== ""){
                 var deletedIndex = this.findThisID(this.arCart, targetID);
 
@@ -212,7 +197,6 @@ export default {
         },
 
         editProdInput: function (event) { 
-            console.log("edit prod input cart");
             event.preventDefault();
             var eventTarget = event.target;
             var reg = new RegExp('[0-9](([0-8](\.[0-9]*)?)|[0-9])?');
@@ -255,7 +239,6 @@ export default {
         },
 
         editProd: function(newQty, targetID){
-            console.log("edit prod cart");
             event.preventDefault();
            
             var i = this.findThisID(this.arCart, targetID);

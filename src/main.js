@@ -4,7 +4,6 @@ import VueResource from 'vue-resource';
 import VueHead from 'vue-head'
 import VueRouter from 'vue-router';
 import { routes } from './routes';
-import './directives/subtitle';
 import store from './store'
 import './assets/css/reset.css';
 

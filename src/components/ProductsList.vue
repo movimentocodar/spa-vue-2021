@@ -24,7 +24,6 @@
 import imgadd from '../assets/add.png';
 import imgtrash from '../assets/trash-can.png';
 import { mapState, mapActions, mapGetters } from 'vuex';
-import modProd from "../api/prod.js";
 
 export default {
     data() {
@@ -49,7 +48,7 @@ export default {
     },
 
     created(){        
-        this.arBuild = this.arprod;
+        this.arBuild = this.arprod.map(el => { return {...el} });
         this.arCart = this.cart;
 
         this.generateProductList();
@@ -57,19 +56,15 @@ export default {
 
     watch: {
         'search': function () {
-            console.log("watcher searc do product list");
             this.generateProductList();
         },
 
         'cart': function (newCart, oldCart) {
-            console.log("watcher cart do product listm, novo valor:");
             this.arCart = newCart;
-            console.log(this.arCart);
             this.generateProductList();
         },
         
         'numcart': function (newN, oldN) {
-            console.log("watcher numcart do product list");
             this.cartnumber = newN;
             this.generateProductList();
         },
@@ -78,7 +73,6 @@ export default {
     methods: {
 
         addCart: function (event) {   
-            console.log("add cart product list");
             event.preventDefault();
 
             var i = this.findThisID(this.arBuild, event.target.id);
@@ -91,25 +85,21 @@ export default {
             }          
         
             this.arBuild[i].qty = 1;
-            console.log(this.arBuild[i].id + " id , qty " + this.arBuild[i].qty);
 
             this.$store.dispatch("changeCart",this.arCart);
         },
 
         addProd: function (event) { 
-            console.log("add prod product list");
             event.preventDefault();
             this.editProd(-100, event.target.id);
         },
 
         delProd: function (event) { 
-            console.log("del prod product list");
             event.preventDefault();
             this.delProdTrashCan(event.target.id);
         },
 
         delProdTrashCan: function (targetID) { 
-            console.log("delprodtrashcan product list");
             if(this.arCart !== ""){
                 var arBuildIndex = this.findThisID(this.arBuild, targetID);
                 this.arBuild[arBuildIndex].outCart = true;
@@ -126,13 +116,11 @@ export default {
         },
 
         resetSessionCart: function(){
-            console.log("reset session cart product list");
-            this.$store.dispatch("changeCart","");
+            this.$store.dispatch("changeCart",[]);
             this.$store.dispatch("changeNumCart",0);
         },
 
         editProdInput: function (event) { 
-            console.log("edit prod input");
             event.preventDefault();
             var eventTarget = event.target;
             var reg = new RegExp('[0-9](([0-8](\.[0-9]*)?)|[0-9])?');
@@ -175,7 +163,6 @@ export default {
         },
 
         editProd: function(newQty, targetID){
-            console.log("edit prod product list");
             event.preventDefault();
            
             var i = this.findThisID(this.arCart, targetID);
@@ -195,27 +182,19 @@ export default {
             this.arCart[i].qty = newQty;
             this.arBuild[this.findThisID(this.arBuild, targetID)].qty = newQty;
             
-            this.$store.dispatch("changeCart",this.arCart);
-            console.log("product list ar cart no edit prod");
-            //PORQUE NESSE PONTO NÃO ATIVA OS WATCHERS?
+            this.$store.dispatch("changeCart",this.arCart.map(el => { return {...el} }));
         },
 
         generateProductList: function () {  
-            console.log("generate product list");
             this.arGenSearch = this.search;
             
             if(this.arGenSearch === "notfound"){
-                console.log('not found');
                 this.searchNotFound = true;
                 this.arBuild = "";
             } else if (this.arGenSearch === ""){
-                console.log('campo de search vazio');
                 this.searchNotFound = false;
-                this.arBuild = this.arprod;
-                console.log(this.arprod);
-                //AO INVÉS DE FAZER UMA CÓPIA, USA MESMA REF DO API E ALTERA OS DADOS
+                this.arBuild = this.arprod.map(el => { return {...el} });
             } else {
-                console.log('encontrou alguma coisa no search');
                 this.arBuild = [];
                 for (var i = 0; i < this.arGenSearch.length; i++) {
                     for (var x = 0; x < this.arprod.length; x++){
@@ -233,7 +212,6 @@ export default {
             
             if (this.arBuild.length > 0){
                 if(this.arCart.length > 0){
-                    console.log('entrou em ar build e ar cart reais');
                     for(var i = 0; i < this.arBuild.length; i++){
                         var x = this.findThisID(this.arCart, this.arBuild[i].id);
                         if (x !== undefined){

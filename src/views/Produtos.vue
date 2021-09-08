@@ -1,6 +1,6 @@
 <template>
     <div>
-        <subtitle :pagetitle="'Produtos'" :visivel="true" v-on:generateProductList="generateProductList()"></subtitle>      
+        <subtitle :pagetitle="'Produtos'" :visivel="true"></subtitle>      
         <productsList></productsList>
     </div>
 </template>
@@ -14,10 +14,6 @@ export default {
         "subtitle": pageSubtitle,
         "productsList": productsList,
     },
-
-    generateProductList: function (event) {   
-	  this.$refs.productsList.generateProductList();		
-	},
 }
 
 </script>

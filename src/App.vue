@@ -11,13 +11,11 @@
 </template>
 
 <script>
-import Produtos from './components/Produtos.vue';
 import pageHeader from './components/Header.vue';
 import pageFooter from './components/Footer.vue';
 
 export default {
   components: {
-    "cproducts": Produtos,
     "cheader": pageHeader,
     "cfooter": pageFooter
   },

@@ -6,7 +6,7 @@ Vue.use(Vuex);
 
 const state = {
   search: "",
-  cart: "",
+  cart: [],
   numcart: 0,
   showcart: false,
   arprod: [...modProd.getArProd()]
