@@ -10,7 +10,7 @@
                     <td>
                         <div class="prod-name-cart" data-cart-message> Não há nada no carrinho</div>
                         <div data-cart-content style="display:none;">
-                            <div v-for="cart in arHeaderCart">
+                            <div v-for="cart in arHeaderCart" :key="cart.id">
                                 <table>
                                     <tr><td colspan="2" class="prod-name-cart">{{ cart.name }}</td></tr>
                                     <tr>
@@ -60,20 +60,16 @@ export default {
             totalitem:0,
             totalprice: 0,
             arCart: [],
-            arHeaderCart: [],
-            arProd: []
+            arHeaderCart: []
         }
     },
 
     computed: {
         ...mapGetters({
         numcart: 'getNumCart',
-        cart: 'getCart'
+        cart: 'getCart',
+        arprod: 'getArProd'
         }),
-    },
-
-    created(){      
-        this.arProd = modProd.getArProd();
     },
 
     watch: {
@@ -126,7 +122,7 @@ export default {
 
                     this.cartnumber = qtyitem;
 
-                    var price = parseFloat(this.arProd[this.arCart[i].id].price),
+                    var price = parseFloat(this.arprod[this.arCart[i].id].price),
                     qty = parseFloat(this.arCart[i].qty);
 
                     var totalprodprice = price * qty;

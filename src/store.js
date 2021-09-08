@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import modProd from "./api/prod.js";
 
 Vue.use(Vuex);
 
@@ -7,7 +8,8 @@ const state = {
   search: "",
   cart: "",
   numcart: 0,
-  showcart: false
+  showcart: false,
+  arprod: [...modProd.getArProd()]
 };
 
 const mutations = {
@@ -62,6 +64,10 @@ const getters = {
 
   getShowCart(state) {
     return state.showcart;
+  },
+
+  getArProd(state) {
+    return state.arprod;
   }
 };
 

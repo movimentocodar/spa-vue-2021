@@ -5,9 +5,8 @@ import VueHead from 'vue-head'
 import VueRouter from 'vue-router';
 import { routes } from './routes';
 import './directives/subtitle';
-import Vuex from 'vuex';
-import arProd from "./api/prod.js";
 import store from './store'
+import './assets/css/reset.css';
 
 Vue.use(VueResource);
 Vue.use(VueRouter);

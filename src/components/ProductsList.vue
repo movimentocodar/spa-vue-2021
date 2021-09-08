@@ -2,7 +2,7 @@
     <div class="page-content">
         <section class="content-section">
             <span v-show="searchNotFound">Nenhum produto foi encontrado.</span>
-            <div class="prodsBlock" v-for="prod in arBuild">
+            <div class="prodsBlock" v-for="prod in arBuild" :key="prod.id">
                 <div class="div-prod">
                     <img :src="prod.img" class="img-prod">
                     <span class="prod-name">{{ prod.name }}</span>
@@ -35,7 +35,6 @@ export default {
             searchNotFound: false,
             arBuild: [],
             arCart: [],
-            arProd: [],
             arGenSearch: ""
         }
     },
@@ -45,12 +44,12 @@ export default {
         search: 'getSearch',
         cart: 'getCart',
         numcart: 'getNumCart',
+        arprod: 'getArProd'
         }),
     },
 
     created(){        
-        this.arProd = modProd.getArProd();
-        this.arBuild = this.arProd;
+        this.arBuild = this.arprod;
         this.arCart = this.cart;
 
         this.generateProductList();
@@ -212,18 +211,19 @@ export default {
             } else if (this.arGenSearch === ""){
                 console.log('campo de search vazio');
                 this.searchNotFound = false;
-                this.arBuild = this.arProd;
-                console.log(this.arProd);
+                this.arBuild = this.arprod;
+                console.log(this.arprod);
+                //AO INVÉS DE FAZER UMA CÓPIA, USA MESMA REF DO API E ALTERA OS DADOS
             } else {
                 console.log('encontrou alguma coisa no search');
                 this.arBuild = [];
                 for (var i = 0; i < this.arGenSearch.length; i++) {
-                    for (var x = 0; x < this.arProd.length; x++){
-                        if (this.arGenSearch[i].id === this.arProd[x].id) {
+                    for (var x = 0; x < this.arprod.length; x++){
+                        if (this.arGenSearch[i].id === this.arprod[x].id) {
                             if(this.arBuild){
-                                this.arBuild.push(this.arProd[x]);
+                                this.arBuild.push(this.arprod[x]);
                             } else {
-                                this.arBuild = this.arProd[x];
+                                this.arBuild = this.arprod[x];
                             }
                         }
                     }
