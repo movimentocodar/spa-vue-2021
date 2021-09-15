@@ -1,32 +1,247 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+  <div>
+    <cheader></cheader>
+    <body id="app">
+      <main>
+        <router-view></router-view>   
+      </main>
+    </body>
+    <cfooter></cfooter>
   </div>
 </template>
 
+<script>
+import pageHeader from './components/Header.vue';
+import pageFooter from './components/Footer.vue';
+
+export default {
+  components: {
+    "cheader": pageHeader,
+    "cfooter": pageFooter
+  },
+
+  head: {
+    title: {
+      inner: "CoffAroma"
+    },
+    meta: [
+      { charset: 'UTF-8'},
+      { name: 'viewport', content: 'width=device-width, initial-scale=1.0'}
+    ],
+    link: [
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Merriweather&display=swap' },
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Bebas+Neue&display=swap' },
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto&display=swap' }
+    ]
+  }
+}
+
+</script>
+
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+
+body, header, footer, nav li a, .prod-name-cart, .social-name, .profile-name, .content-section, .search-input, .search-title, .addcart-button, .viewcart-button, .input-prod-qty, .input-prod-qty-cart, .button-cart{
+	font-family: 'Merriweather', sans-serif;
+	font-size:16px;
 }
 
-#nav {
-  padding: 30px;
+/*Menu*/
+
+nav li {
+	display: inline;
+	letter-spacing: 0.3px;
+	padding:0 5px;
 }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
+nav li a, .social-name{
+    color: #F3ECD9;
+	text-decoration:none;
 }
 
-#nav a.router-link-exact-active {
-  color: #42b983;
+nav li a:hover, .social-name:hover{
+	text-decoration:underline;
+}
+
+/*Pointer para botões*/
+
+.button-cart:hover, .close-cart:hover, .addcart-button:hover, .viewcart-button:hover, .add-prod-qty:hover, .del-prod:hover, .del-prod-cart:hover{
+	cursor:pointer;
+}
+
+.addcart-button, .viewcart-button{
+	width:198px;
+	height:40px;
+	background-color:#C49664;
+	color:black;
+	text-align:Center;
+	border:0px;
+	padding: 5px 0px;
+}
+
+.addcart-button:hover, .add-prod-qty:hover, .close-prod:hover, .del-prod:hover, .del-prod-cart:hover, .viewcart-button:hover{
+	background-color:#946737;
+	transition: 0.5s;
+}
+
+/*Listagem do carrinho*/
+
+.close-cart{
+	font-family: 'Merriweather', sans-serif;
+	font-size:14px;
+	font-weight:bold;
+}
+
+
+.hidebuttons, .hidecart{
+	display:none;
+}
+
+.hidecart{
+	position:absolute;
+	top: 152px;
+	left:990px;
+}
+
+.img-cart-appen{
+	position:relative;
+	left:20px;
+	width:49px;
+	height:29px;
+}
+
+
+.cart{
+	position:relative;
+	top:-5px;
+	width:220px;
+	height:auto;
+	padding:35px 22px;
+	background-color:white;
+
+}
+
+.prod-descr-cart{
+	padding: 0 0 0 10px;
+}
+
+.del-prod-cart{
+	position:relative;
+	top:5px;
+	margin:0px 0px 0px 10px;
+}
+
+.prod-price-cart{
+	display:inline;
+	margin:0 5px;
+	font-size:16px;
+}
+
+.prod-cart{
+	padding:10px;
+}
+
+.close-prod{
+	float:right;
+	position:relative;
+	top:-20px;
+	right:-10px;
+}
+
+.img-prod-cart{
+	width:68px;
+	height:71px;
+}
+
+.cart-line{
+	width: 160px;
+	border-bottom:1px solid #946737;
+	margin:20px auto 30px auto;
+}
+
+.prod-price-cart{
+	display:inline;
+}
+
+.prod-cart-img{
+	width:80px;
+}
+
+.viewcart-button{
+	margin: 0px 0px 0px 12px;
+}
+
+.prod-cart-add{
+	width:140px;
+}
+
+/*Listagens de produtos*/
+
+.input-prod-qty, .input-prod-qty-cart{
+	width:50px;
+	height:35px;
+	background-color:white;
+	border: 1px solid #C49664;
+	font-weight:bold;
+	padding:2px 5px;
+	text-align:center;
+	vertical-align: top;
+	margin:0px 5px 0px 0px;
+}
+
+.prod-name-cart, .prod-itens{
+	padding:0 0 10px 0;
+	font-size:14px;
+	text-align:center;
+	font-weight:bold;
+}
+
+.prod-itens{
+	text-align:right;
+}
+
+.prod-qty{
+	font-size:16px;
+	display:inline;
+}
+
+.prod-price, .prod-price-cart{
+	font-family: 'Bebas Neue', sans-serif;
+	font-size:22px;
+	text-align:center;
+	padding: 5px 0px;
+}
+
+.addcart-button, .viewcart-button{
+	width:198px;
+	height:40px;
+	background-color:#C49664;
+	color:black;
+	text-align:Center;
+	border:0px;
+	padding: 5px 0px;
+}
+
+.input-prod-qty{
+	margin:0 5px 0 10px;
+}
+
+.add-prod-qty, .del-prod, .del-prod-cart, .close-prod{
+	font-family: 'Bebas Neue', sans-serif;
+	font-size:48px;
+	color:black;
+	width:48px;
+	height:40px;
+	background-color:#C49664;
+	border:0px;
+}
+
+.add-prod-qty, .del-prod{
+	margin:0 5px 0 0;
+}
+
+.addcart-button:hover, .add-prod-qty:hover, .close-prod:hover, .del-prod:hover, .del-prod-cart:hover, .viewcart-button:hover{
+	background-color:#946737;
+	transition: 0.5s;
 }
 </style>
