@@ -53,7 +53,7 @@
         title="O Supermercado da Familia!"
       />
 
-      <Pesquisa @inputPesquisa="inputPesquisa($event)"></Pesquisa>
+      <Pesquisa></Pesquisa>
 
       <nav class="cabecalhoPrincipal-nav">
         <svg v-if="usuario.avatar_url == undefined" alt="user"></svg>
@@ -101,7 +101,6 @@ import Login from "../components/Login.vue";
 })
 export default class Header extends Vue {
   private usuario = {} as Usuario;
-  private valorInputPesquisa = "";
   private departamento = "";
   private showModal = false;
   private dismissSecs = 5;
@@ -109,7 +108,6 @@ export default class Header extends Vue {
   private mensagem = "";
 
   methods(): void {
-    this.inputPesquisa;
     this.usuarioGit(this.usuario, this.showModal);
     this.modalOpen;
     this.countDownChanged;
@@ -135,10 +133,7 @@ export default class Header extends Vue {
     return (this.showModal = estado);
   }
 
-  inputPesquisa(valor: string): void {
-    this.valorInputPesquisa = valor;
-  }
-
+ 
   getDepartamento(): void {
     const _this = this;
 
