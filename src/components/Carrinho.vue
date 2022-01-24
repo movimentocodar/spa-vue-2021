@@ -60,7 +60,11 @@
           {{ quantidadeTotalDeProdutos }} und.
         </p>
       </div>
-      <button class="card button" data-finalizar-compra="" @click="verificaItensNoCarrinho">
+      <button
+        class="card button"
+        data-finalizar-compra=""
+        @click="verificaItensNoCarrinho"
+      >
         Finalizar
       </button>
     </div>
@@ -155,11 +159,18 @@ export default class Car extends Vue {
   }
 
   finalizar(): void {
-    Carrinho.finalizar();
-    EventBus.$emit("carrinho-finaliza", "Estamos preparando o seu pedido, volte sempre!");
-    this.quantidadeTotal = 0;
-    this.valorTotal = 0;
-    this.$store.state.quantidade = this.valorTotal;
+    try {
+      Carrinho.finalizar();
+      EventBus.$emit(
+        "carrinho-finaliza",
+        "Estamos preparando o seu pedido, volte sempre!"
+      );
+      this.quantidadeTotal = 0;
+      this.valorTotal = 0;
+      this.$store.state.quantidade = this.valorTotal;
+    } catch (error) {
+      EventBus.$emit("carrinho-finaliza", error);
+    }
   }
 
   get contador(): number {
