@@ -67,7 +67,6 @@ import { EventBus } from "../eventBus";
 
 @Component
 export default class FiltroDepartamento extends Vue {
-  filtroDepartamento: HTMLLinkElement;
 
   produtoP(departamento: HTMLLinkElement):void {
     const departamentoLink = departamento.attributes.getNamedItem(
