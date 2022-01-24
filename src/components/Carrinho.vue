@@ -156,6 +156,7 @@ export default class Car extends Vue {
 
   finalizar(): void {
     Carrinho.finalizar();
+    EventBus.$emit("carrinho-finaliza", "Estamos preparando o seu pedido, volte sempre!");
     this.quantidadeTotal = 0;
     this.valorTotal = 0;
     this.$store.state.quantidade = this.valorTotal;

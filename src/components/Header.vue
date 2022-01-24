@@ -1,7 +1,24 @@
 <template>
   <header>
     <div>
-      <div id="mensagem" class="success" data-mensagem></div>
+      <b-alert
+        :show="dismissCountDown"
+        variant="warning"
+        @dismissed="dismissCountDown = 0"
+        @dismiss-count-down="countDownChanged"
+      >
+        <p class="mensagem">
+          {{ mensagem }}
+          {{ dismissCountDown }} seconds...
+        </p>
+        <b-progress
+          variant="warning"
+          :max="dismissSecs"
+          :value="dismissCountDown"
+          height="4px"
+        ></b-progress>
+      </b-alert>
+
       <ul class="atendimento">
         <li>Compre pelo tel: 0800 123 4500</li>
         <li>
@@ -84,14 +101,34 @@ import Login from "../components/Login.vue";
 })
 export default class Header extends Vue {
   private usuario = {} as Usuario;
-  valorInputPesquisa = "";
-  departamento = "";
-  showModal = false;
+  private valorInputPesquisa = "";
+  private departamento = "";
+  private showModal = false;
+  private dismissSecs = 5;
+  private dismissCountDown = 0;
+  private mensagem = "";
 
   methods(): void {
     this.inputPesquisa;
     this.usuarioGit(this.usuario, this.showModal);
     this.modalOpen;
+    this.countDownChanged;
+  }
+
+  countDownChanged(dismissCountDown: number): void {
+    this.dismissCountDown = dismissCountDown;
+  }
+
+  showAlert(): void {
+    this.dismissCountDown = this.dismissSecs;
+  }
+
+  created(): void {
+    const _this = this;
+    EventBus.$on("carrinho-finaliza", function(mensagem: string) {
+      _this.showAlert();
+      _this.mensagem = mensagem;
+    });
   }
 
   modalOpen(estado: boolean): boolean {
@@ -110,7 +147,7 @@ export default class Header extends Vue {
     });
   }
 
-  deslogar() {
+  deslogar(): void {
     this.usuario.avatar_url = undefined;
     this.usuario.name = undefined;
   }
@@ -133,13 +170,8 @@ header {
   box-shadow: 0 5px 10px 0px #6b6b6b;
 }
 
-.success {
-  color: #3c763d;
-  background-color: #dff0d8;
-  border-color: #d6e9c6;
-  position: absolute;
-  right: 2%;
-  font-size: larger;
+.mensagem {
+  text-align: center;
 }
 
 .atendimento li {
