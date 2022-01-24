@@ -19,7 +19,7 @@ import { EventBus } from "../eventBus";
 
 @Component
 export default class Pesquisa extends Vue {
-  filtro = "";
+  private filtro = "";
 
   produtoInformado(produto: string):void {
     EventBus.$emit("inputPesquisa", (this.filtro = produto));
