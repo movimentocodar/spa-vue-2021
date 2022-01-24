@@ -28,10 +28,10 @@ import Usuario from "../model/Usuario";
 export default class Login extends Vue {
   @Ref("form") readonly form!: HTMLFormElement;
 
-  mensagem = "";
-  login = "";
-  usuario = {} as Usuario;
-  hideModal = false;
+ private mensagem = "";
+ private login = "";
+ private usuario = {} as Usuario;
+ private hideModal = false;
 
   async getUsuario(): Promise<void> {
     const login: string = this.form.querySelectorAll("input").item(0).value;
