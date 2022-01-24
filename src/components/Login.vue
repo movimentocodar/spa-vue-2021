@@ -1,12 +1,13 @@
 <template>
   <div>
     <b-form ref="form" @submit.prevent="getUsuario($event)">
-      <p class="nome">{{ mensagem }} {{ usuario.name }}</p>
+      <p class="erro">{{ mensagem }}</p>
 
       <b-form-group label="Username:">
         <b-form-input
           v-model="login"
           type="text"
+          required
           placeholder="Usuario do GitHub"
         ></b-form-input>
       </b-form-group>
@@ -14,7 +15,7 @@
       <b-button type="submit" class="submit" variant="primary">Logar</b-button>
       <br />
       <br />
-      <b-alert show>Informe o seu login do GitHub</b-alert>
+      <b-alert class="align-items-center" show>Informe o seu login do GitHub</b-alert>
     </b-form>
   </div>
 </template>
@@ -30,6 +31,7 @@ export default class Login extends Vue {
   mensagem = "";
   login = "";
   usuario = {} as Usuario;
+  hideModal = false;
 
   async getUsuario(): Promise<void> {
     const login: string = this.form.querySelectorAll("input").item(0).value;
@@ -40,7 +42,7 @@ export default class Login extends Vue {
         if (this.usuario.name == "" || this.usuario.name == null) {
           this.mensagem = "User name invalido!";
         } else {
-          this.$emit("usuario-git", this.usuario);
+          this.$emit("usuario-git", this.usuario, this.hideModal);
         }
       })
       .catch((e: Error) => {
@@ -49,3 +51,8 @@ export default class Login extends Vue {
   }
 }
 </script>
+<style scoped>
+.erro{
+  color: brown;
+}
+</style>
