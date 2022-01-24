@@ -60,7 +60,7 @@
           {{ quantidadeTotalDeProdutos }} und.
         </p>
       </div>
-      <button class="card button" data-finalizar-compra="" @click="finalizar">
+      <button class="card button" data-finalizar-compra="" @click="verificaItensNoCarrinho">
         Finalizar
       </button>
     </div>
@@ -144,6 +144,14 @@ export default class Car extends Vue {
     this.calcularValorTotal(produto, Movimento.DEBITO);
     this.calcularQuantidadeTotal(produto, Movimento.DEBITO);
     this.atualizaQuantidadeNoCarrinho();
+  }
+
+  verificaItensNoCarrinho(): void {
+    if (this.quantidadeTotal != 0) {
+      let remover = confirm("Deseja realmente remover os itens?");
+
+      remover == true ? this.finalizar() : false;
+    }
   }
 
   finalizar(): void {
@@ -274,8 +282,6 @@ export default class Car extends Vue {
 .carrinho-compras-lista div:nth-of-type(1) {
   flex-grow: 2;
 }
-
-
 
 .compras-carrinho-total {
   display: flex;
