@@ -15,7 +15,7 @@
       <b-button type="submit" class="submit" variant="primary">Logar</b-button>
       <br />
       <br />
-      <b-alert class="align-items-center" show>Informe o seu login do GitHub</b-alert>
+      <b-alert show>Informe o seu login do GitHub</b-alert>
     </b-form>
   </div>
 </template>
