@@ -152,7 +152,7 @@ export default class Car extends Vue {
 
   verificaItensNoCarrinho(): void {
     if (this.quantidadeTotal != 0) {
-      let remover = confirm("Deseja realmente remover os itens?");
+      let remover = confirm("Deseja realmente finalizar o pedido?");
 
       remover == true ? this.finalizar() : false;
     }
@@ -163,7 +163,7 @@ export default class Car extends Vue {
       Carrinho.finalizar();
       EventBus.$emit(
         "carrinho-finaliza",
-        "Estamos preparando o seu pedido, volte sempre!"
+        "Pedido enviado com sucesso, já estamos preparando o seu pedido, volte sempre!"
       );
       this.quantidadeTotal = 0;
       this.valorTotal = 0;
@@ -171,6 +171,7 @@ export default class Car extends Vue {
     } catch (error) {
       EventBus.$emit("carrinho-finaliza", error);
     }
+      window.scrollTo(0, 0);
   }
 
   get contador(): number {
