@@ -10,6 +10,14 @@
         <li>
           <router-link to="/">Home</router-link> |
           <router-link to="/contato">Contato</router-link>
+          <a
+            v-if="usuario.avatar_url != undefined"
+            class="sair"
+            @click="deslogar"
+            to="/Home"
+          >
+            | Sair</a
+          >
         </li>
       </ul>
     </div>
@@ -34,22 +42,17 @@
         <svg v-if="usuario.avatar_url == undefined" alt="user"></svg>
         <img else :src="usuario.avatar_url" />
 
-        <a href="" @click.prevent="showModals(true)">
+        <a href="" @click.prevent="modalOpen(true)">
           {{ usuario.name == undefined ? "Login" : usuario.name }}</a
         >
 
         <Modal
           :based-on="showModal"
           title="Hugoogle Supermercado"
-          @close="showModal = false"
+          @close="showModal = modalOpen(false)"
         >
           <Login @usuario-git="usuarioGit"></Login>
         </Modal>
-
-        <!-- <div >
-          <svg alt="user"></svg>
-          <a href="" @click.prevent="showModals(true)"> Login </a>
-        </div> -->
 
         <div>
           <svg alt="carrinho"></svg>
@@ -68,7 +71,6 @@
 import { Component, Vue } from "vue-property-decorator";
 import Pesquisa from "./Pesquisa.vue";
 import FiltroDepartamento from "./FiltroDepartamento.vue";
-import userServices from "../services/userServices";
 import Usuario from "../model/Usuario";
 import { EventBus } from "../eventBus";
 import Login from "../components/Login.vue";
@@ -86,26 +88,16 @@ export default class Header extends Vue {
   departamento = "";
   showModal = false;
 
-  async getUsuario(login: string): Promise<void> {
-    await userServices
-      .getUser(login)
-      .then((response) => {
-        return (this.usuario = response.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }
-
   methods(): void {
     this.inputPesquisa;
-    this.usuarioGit(this.usuario);
-    this.showModals;
+    this.usuarioGit(this.usuario, this.showModal);
+    this.modalOpen;
   }
 
-  showModals(estado: boolean): boolean {
+  modalOpen(estado: boolean): boolean {
     return (this.showModal = estado);
   }
+
   inputPesquisa(valor: string): void {
     this.valorInputPesquisa = valor;
   }
@@ -118,12 +110,18 @@ export default class Header extends Vue {
     });
   }
 
+  deslogar() {
+    this.usuario.avatar_url = undefined;
+    this.usuario.name = undefined;
+  }
+
   get quantidade(): number {
     return this.$store.getters.quantidade;
   }
 
-  usuarioGit(usuario: Usuario): void {
+  usuarioGit(usuario: Usuario, hideModal: boolean): void {
     this.usuario = usuario;
+    this.showModal = hideModal;
   }
 }
 </script>
@@ -158,6 +156,12 @@ header {
   height: 18px;
   margin-top: -2px;
   background: url(../assets/imagem/svg/sacola.svg) 0 0 no-repeat;
+}
+
+a {
+  color: #156f96;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 h1 img {
