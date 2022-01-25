@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-form ref="form" @submit.prevent="getUsuario($event)">
+    <b-form @submit.prevent="logar($event)">
       <p class="erro">{{ mensagem }}</p>
 
       <b-form-group label="Username:">
@@ -20,23 +20,21 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Ref, Vue } from "vue-property-decorator";
-import userServices from "../services/userServices";
+import { Component, Vue } from "vue-property-decorator";
 import Usuario from "../model/Usuario";
+import userServices from "../services/userServices";
 
-@Component({ name: "Login" })
+@Component
 export default class Login extends Vue {
-  @Ref("form") readonly form!: HTMLFormElement;
+  private login = "";
+  private usuario: Usuario;
+  private hideModal: false;
+  private mensagem = "";
+  
 
- private mensagem = "";
- private login = "";
- private usuario = {} as Usuario;
- private hideModal = false;
-
-  async getUsuario(): Promise<void> {
-    const login: string = this.form.querySelectorAll("input").item(0).value;
-    await userServices
-      .getUser(login)
+  async logar(): Promise<void> {
+   return await userServices
+      .getUser(this.login)
       .then((response) => {
         this.usuario = response.data;
         if (this.usuario.name == "" || this.usuario.name == null) {
@@ -52,7 +50,7 @@ export default class Login extends Vue {
 }
 </script>
 <style scoped>
-.erro{
+.erro {
   color: brown;
 }
 </style>
