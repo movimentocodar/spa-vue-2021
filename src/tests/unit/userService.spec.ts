@@ -8,6 +8,7 @@ import {
   BForm,
   BFormGroup,
   BButton,
+  BAlert
 } from "bootstrap-vue";
 
 import Login from "@/components/Login.vue";
@@ -24,6 +25,7 @@ describe("Login", () => {
         "b-form": BForm,
         "b-form-group": BFormGroup,
         "b-button": BButton,
+        "b-alert": BAlert
       },
     });
   });
@@ -44,16 +46,6 @@ describe("Login", () => {
 
   test("Componente é uma instancia do Vue", () => {
     expect(wrapper.vm).toBeTruthy;
-  });
-
-  test("Se o estado inicial do objeto usuario esta vazio", () => {
-    resetData(wrapper);
-    expect(wrapper.vm.$data.usuario.name).toBeFalsy();
-  });
-
-  test("Se o estado do objeto usuario está preenchido", () => {
-    setData(wrapper);
-    expect(wrapper.vm.$data.usuario.name).toBeTruthy();
   });
 
   test("O dado retorna usuario Hugo Ferreira", async () => {
