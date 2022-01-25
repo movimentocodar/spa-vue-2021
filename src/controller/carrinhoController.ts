@@ -8,7 +8,7 @@ export abstract class Carrinho {
 
   private static produtos: ProdutosDTO[] = [];
 
-  public static adiciona(produto: ProdutosDTO):void {
+  public static adiciona(produto: ProdutosDTO): void {
     this.produtos.push(produto);
   }
 
@@ -16,7 +16,10 @@ export abstract class Carrinho {
     return this.produtos;
   }
 
-  public static quantidadeTotal(produto: ProdutoModel, movimento: Movimento): number {
+  public static quantidadeTotal(
+    produto: ProdutoModel,
+    movimento: Movimento
+  ): number {
     if (movimento == Movimento.CREDITO) {
       this.qtdTotal += produto.quantidade;
     } else {
@@ -25,7 +28,10 @@ export abstract class Carrinho {
     return this.qtdTotal;
   }
 
-  public static valorTotal(produto: ProdutoModel, movimento: Movimento): number {
+  public static valorTotal(
+    produto: ProdutoModel,
+    movimento: Movimento
+  ): number {
     if (movimento == Movimento.CREDITO) {
       this.vlrTotal += parseFloat(produto.preco);
     } else {
@@ -35,17 +41,24 @@ export abstract class Carrinho {
     return parseFloat(this.vlrTotal.toFixed(2));
   }
 
-  public static remover(produto: ProdutosDTO):void {
+  public static remover(produto: ProdutosDTO): void {
     const index = this.produtos.indexOf(produto);
     if (index > -1) {
       this.produtos.splice(index, 1);
     }
   }
 
-  public static finalizar():void{
-      this.produtos.splice(0, this.produtos.length)
-      this.qtdTotal = 0
-      this.vlrTotal = 0
+  public static finalizar(): void {
+    this.produtos.splice(0, this.produtos.length);
+    this.qtdTotal = 0;
+    this.vlrTotal = 0;
   }
 
+  public static verificarResolucao(): void {
+    const windowWidth = window.innerWidth;
+    const screenWidth = screen.width;
+    if (windowWidth <= 768 || screenWidth <= 768) {
+      window.scrollTo(0, 99999);
+    }
+  }
 }

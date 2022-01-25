@@ -65,12 +65,12 @@ export default class Contato extends Vue {
   mensagemTextArea = "";
   showDismissibleAlert = false as boolean;
 
-  methods():void {
+  methods(): void {
     this.sendEmail();
     this.showAlert();
   }
 
-  sendEmail():void {
+  sendEmail(): void {
     const dadosValidos = this.validaForm();
     if (dadosValidos) {
       this.mensagem = "Por favor aguarde...";
@@ -99,15 +99,15 @@ export default class Contato extends Vue {
     }
   }
 
-  countDownChanged(dismissCountDown: number):void {
+  countDownChanged(dismissCountDown: number): void {
     this.dismissCountDown = dismissCountDown;
   }
 
-  showAlert():void {
+  showAlert(): void {
     this.dismissCountDown = this.dismissSecs;
   }
 
-  validaForm():boolean {
+  validaForm(): boolean {
     this.errors = [];
 
     if (!this.name) {
@@ -194,5 +194,17 @@ input[type="submit"] {
 input[type="submit"]:hover {
   background-color: #156f96;
   opacity: 0.9;
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    display: block;
+    text-align: center;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 6px;
+    width: 90%;
+    margin-top: 8%;
+  }
 }
 </style>

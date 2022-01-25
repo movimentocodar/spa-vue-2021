@@ -21,7 +21,7 @@ import { EventBus } from "../eventBus";
 export default class Pesquisa extends Vue {
   private filtro = "";
 
-  produtoInformado(produto: string):void {
+  produtoInformado(produto: string): void {
     EventBus.$emit("inputPesquisa", (this.filtro = produto));
   }
 }
@@ -85,5 +85,16 @@ form div button {
 
 form div button:hover {
   cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+  div form {
+    width: 100%;
+    margin: 5px;
+  }
+
+  form svg {
+    left: 81%;
+  }
 }
 </style>

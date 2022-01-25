@@ -16,7 +16,6 @@
     <section class="carrinho" data-secao-carrinho>
       <Carrinho></Carrinho>
     </section>
-
   </div>
 </template>
 
@@ -42,7 +41,7 @@ export default class Home extends Vue {
   created(): void {
     const _this = this;
 
-    EventBus.$on("botaoDepartamento", function(valor: string) {
+    EventBus.$on("botaoDepartamento", function (valor: string) {
       _this.valorDepartamento = valor;
     });
   }
@@ -93,5 +92,22 @@ h2 {
 .carrinho {
   width: 25%;
   padding: 0px 0px 10px 0px;
+}
+
+@media screen and (max-width: 768px) {
+  .produtos {
+    width: 100%;
+  }
+
+  .navegacao {
+    flex-direction: column;
+    padding-top: 10px;
+    width: 100%;
+    text-align: center;
+  }
+
+  .carrinho[data-v-fae5bece] {
+    width: 95%;
+  }
 }
 </style>

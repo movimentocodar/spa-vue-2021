@@ -1,16 +1,16 @@
 <template>
   <footer>
-      <div class="contatos">
-        <a href="" title="facebook">
-          <svg class="facebook"></svg>
-        </a>
-        <a href="" title="twitter">
-          <svg class="twitter"></svg>
-        </a>
-        <a href="" title="instagram">
-          <svg class="instagram"></svg>
-        </a>
-      </div>
+    <div class="contatos">
+      <a href="" title="facebook">
+        <svg class="facebook"></svg>
+      </a>
+      <a href="" title="twitter">
+        <svg class="twitter"></svg>
+      </a>
+      <a href="" title="instagram">
+        <svg class="instagram"></svg>
+      </a>
+    </div>
     <p class="copyright">&copy; Copyright hugoogle - 2021</p>
   </footer>
 </template>
@@ -25,10 +25,10 @@ export default class Footer extends Vue {}
 
 <style scoped>
 .contatos {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    width: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 20%;
 }
 
 footer {
@@ -46,10 +46,9 @@ footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  position:fixed;
+  position: fixed;
   bottom: 0px;
-    right:0;
-
+  right: 0;
 }
 
 .facebook {
@@ -80,5 +79,11 @@ footer {
   outline: none;
   background: url(../assets/imagem/svg/instagram.svg) 0 0 no-repeat;
   cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+  footer {
+    flex-direction: column;
+  }
 }
 </style>

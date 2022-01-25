@@ -90,11 +90,12 @@ export default class Car extends Vue {
 
   created(): void {
     const _this = this;
-    EventBus.$on("submit", function(produto: ProdutoModel) {
+    EventBus.$on("submit", function (produto: ProdutoModel) {
       Carrinho.adiciona(produto);
       _this.calcularQuantidadeTotal(produto, Movimento.CREDITO);
       _this.calcularValorTotal(produto, Movimento.CREDITO);
       _this.atualizaQuantidadeNoCarrinho();
+      Carrinho.verificarResolucao();
     });
   }
 
@@ -171,7 +172,7 @@ export default class Car extends Vue {
     } catch (error) {
       EventBus.$emit("carrinho-finaliza", error);
     }
-      window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
   }
 
   get contador(): number {

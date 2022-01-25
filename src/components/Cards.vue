@@ -71,14 +71,14 @@ export default class Cards extends Vue {
     this.getProdutos();
   }
 
- comprar(produtoElemento: HTMLButtonElement): void {
+  comprar(produtoElemento: HTMLButtonElement): void {
     this.produto = cardsController.comprar(produtoElemento);
     EventBus.$emit("submit", this.produto);
   }
 
   created(): void {
     const _this = this;
-    EventBus.$on("botaoDepartamento", function(valor: string) {
+    EventBus.$on("botaoDepartamento", function (valor: string) {
       _this.search = "";
       _this.departamento = valor;
     });
@@ -103,11 +103,11 @@ export default class Cards extends Vue {
   get filtrarProduto(): ProdutoModel[] {
     const _this = this;
     if (!_this.search) {
-      EventBus.$on("inputPesquisa", function(search: string) {
+      EventBus.$on("inputPesquisa", function (search: string) {
         _this.search = search;
       });
     } else {
-      EventBus.$on("botaoDepartamento", function(departamento: string) {
+      EventBus.$on("botaoDepartamento", function (departamento: string) {
         _this.search = "";
         _this.departamento = departamento;
       });
@@ -249,5 +249,11 @@ export default class Cards extends Vue {
 
 .input-number-group .input-number-increment {
   margin-left: 0.3rem;
+}
+
+@media screen and (max-width: 768px) {
+  .card button:hover {
+    opacity: 100%;
+  }
 }
 </style>

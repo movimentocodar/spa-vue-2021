@@ -3,7 +3,6 @@
     <Header></Header>
 
     <main class="conteudoPrincipal">
-     
       <router-view />
     </main>
 
@@ -15,19 +14,17 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import Header from "../src/components/Header.vue";
-import Footer from "../src/components/Footer.vue"
-import Vuex from 'vuex'
-Vue.use(Vuex)
+import Footer from "../src/components/Footer.vue";
+import Vuex from "vuex";
+Vue.use(Vuex);
 
 @Component({
   components: {
     Header,
-    Footer
+    Footer,
   },
 })
-export default class App extends Vue {
-
-}
+export default class App extends Vue {}
 </script>
 
 <style>
@@ -36,7 +33,13 @@ body {
   color: #156f96;
 }
 
-.espaco{
+.espaco {
   padding: 10px;
+}
+
+@media screen and (max-width: 768px) {
+  .conteudoPrincipal .container {
+    flex-direction: column;
+  }
 }
 </style>

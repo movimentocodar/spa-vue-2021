@@ -123,7 +123,7 @@ export default class Header extends Vue {
 
   created(): void {
     const _this = this;
-    EventBus.$on("carrinho-finaliza", function(mensagem: string) {
+    EventBus.$on("carrinho-finaliza", function (mensagem: string) {
       _this.showAlert();
       _this.mensagem = mensagem;
     });
@@ -133,11 +133,10 @@ export default class Header extends Vue {
     return (this.showModal = estado);
   }
 
- 
   getDepartamento(): void {
     const _this = this;
 
-    EventBus.$on("botaoDepartamento", function(valor: string) {
+    EventBus.$on("botaoDepartamento", function (valor: string) {
       _this.departamento = valor;
     });
   }
@@ -251,5 +250,29 @@ nav div span {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+@media screen and (max-width: 768px) {
+  h1 img {
+    width: 100px;
+  }
+  .atendimento li {
+    padding-top: 5px;
+    padding-bottom: 10px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .cabecalhoPrincipal {
+    flex-direction: column;
+  }
+  .cabecalhoPrincipal-nav {
+    margin: 15px;
+  }
+
+  .atendimento {
+    flex-direction: column;
+    text-align: center;
+  }
 }
 </style>

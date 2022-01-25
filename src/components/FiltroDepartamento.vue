@@ -67,11 +67,9 @@ import { EventBus } from "../eventBus";
 
 @Component
 export default class FiltroDepartamento extends Vue {
-
-  produtoP(departamento: HTMLLinkElement):void {
-    const departamentoLink = departamento.attributes.getNamedItem(
-      "data-departamento"
-    ).textContent;
+  produtoP(departamento: HTMLLinkElement): void {
+    const departamentoLink =
+      departamento.attributes.getNamedItem("data-departamento").textContent;
 
     EventBus.$emit("botaoDepartamento", departamentoLink);
   }
@@ -206,5 +204,12 @@ export default class FiltroDepartamento extends Vue {
   margin: 20px 0px 10px 0px;
   color: #04bcff;
   font-size: 18px;
+}
+
+@media screen and (max-width: 768px) {
+  .menu__list {
+    flex-direction: column;
+    text-align: center;
+  }
 }
 </style>

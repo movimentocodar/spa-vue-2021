@@ -30,10 +30,9 @@ export default class Login extends Vue {
   private usuario: Usuario;
   private hideModal: false;
   private mensagem = "";
-  
 
   async logar(): Promise<void> {
-   return await userServices
+    return await userServices
       .getUser(this.login)
       .then((response) => {
         this.usuario = response.data;
