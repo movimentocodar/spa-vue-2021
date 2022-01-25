@@ -50,7 +50,6 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import ProdutoModel from "../model/Produto";
-import produtoServices from "../services/produtoServices";
 import { EventBus } from "../eventBus";
 import cardsController from "../controller/cardsController";
 
@@ -58,20 +57,21 @@ import cardsController from "../controller/cardsController";
 export default class Cards extends Vue {
   private search = "";
   private departamento = "";
-  private produtos = [] as ProdutoModel[];
+  private produtos: ProdutoModel[] = [];
   private produto: ProdutoModel;
 
   async getProdutos(): Promise<ProdutoModel[]> {
-    return await produtoServices
-      .getProdutos()
-      .then((res) => (this.produtos = res));
+    return cardsController.getProdutos().then((produto) => {
+      this.produtos = produto;
+      return this.produtos;
+    });
   }
 
   mounted(): void {
     this.getProdutos();
   }
 
-  comprar(produtoElemento: HTMLButtonElement): void {
+ comprar(produtoElemento: HTMLButtonElement): void {
     this.produto = cardsController.comprar(produtoElemento);
     EventBus.$emit("submit", this.produto);
   }
@@ -212,7 +212,6 @@ export default class Cards extends Vue {
 .input-number-group .input-number {
   width: 60px;
   padding: 0 12px;
-  vertical-align: top;
   text-align: center;
   outline: none;
   display: block;
