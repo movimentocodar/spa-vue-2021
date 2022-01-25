@@ -15,12 +15,14 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import Header from "../src/components/Header.vue";
+import Footer from "../src/components/Footer.vue"
 import Vuex from 'vuex'
 Vue.use(Vuex)
 
 @Component({
   components: {
     Header,
+    Footer
   },
 })
 export default class App extends Vue {
