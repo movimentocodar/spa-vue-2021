@@ -1,7 +1,9 @@
+import produtoServices from "@/services/produtoServices";
 import ProdutoModel, { IProdutoModel } from "../model/Produto";
 
 export default class cardsController {
-  public static validaQuantidade(e: KeyboardEvent): void {
+    static produtos: ProdutoModel[];
+    public static validaQuantidade(e: KeyboardEvent): void {
     const el: HTMLInputElement = e.target as HTMLInputElement;
     const qtd: number = parseInt(el.value, 10);
 
@@ -9,6 +11,7 @@ export default class cardsController {
       el.setAttribute("value", "1");
     }
 
+  
     const elemento = el.parentElement.parentElement;
     const element = el.parentElement.parentElement.parentElement;
     const input = elemento.querySelectorAll("input").item(0);
@@ -23,10 +26,17 @@ export default class cardsController {
     }
   }
 
+  public static async  getProdutos(): Promise<ProdutoModel[]> {
+    return await produtoServices
+      .getProdutos()
+      .then((res) => (this.produtos = res));
+  }
+
+
   public static somenteNumeros(e: KeyboardEvent): void {
     const el: HTMLInputElement = e.target as HTMLInputElement;
 
-    if (e.key === "," || e.key === "." || e.key === "+" || e.key === "-") {
+    if (e.key === "," || e.key === "." || e.key === "+" || e.key === "-" || e.key == "0") {
       e.preventDefault();
     }
 
