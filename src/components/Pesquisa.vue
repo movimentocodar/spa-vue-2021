@@ -93,8 +93,15 @@ form div button:hover {
     margin: 5px;
   }
 
+  form div input {
+    padding: 10px;
+    margin: 0px;
+  }
+
+
   form svg {
     left: 81%;
+    top: 6px
   }
 }
 </style>

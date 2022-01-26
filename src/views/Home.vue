@@ -95,6 +95,10 @@ h2 {
 }
 
 @media screen and (max-width: 768px) {
+  .listaProdutos {
+    justify-content: center;
+  }
+
   .produtos {
     width: 100%;
   }
@@ -106,8 +110,8 @@ h2 {
     text-align: center;
   }
 
-  .carrinho[data-v-fae5bece] {
-    width: 95%;
+  .carrinho {
+    width: 100%;
   }
 }
 </style>

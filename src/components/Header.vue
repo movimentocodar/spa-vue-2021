@@ -253,6 +253,10 @@ nav div span {
 }
 
 @media screen and (max-width: 768px) {
+  header {
+    padding: 2px;
+  }
+
   h1 img {
     width: 100px;
   }
@@ -274,5 +278,6 @@ nav div span {
     flex-direction: column;
     text-align: center;
   }
+
 }
 </style>
