@@ -115,7 +115,9 @@ export default class Cards extends Vue {
 
     return this.produtos.filter((produto) => {
       if (_this.search) {
-        return produto.descricao.match(this.search);
+         if (produto.descricao.toLowerCase().indexOf(this.search.toLowerCase()) > -1) {
+           return produto
+         }
       } else {
         const departamento =
           this.departamento === "Todos" ? "" : this.departamento;
