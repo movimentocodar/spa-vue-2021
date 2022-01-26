@@ -148,10 +148,13 @@ export default class Car extends Vue {
   }
 
   remover(produto: ProdutoModel): void {
-    Carrinho.remover(produto);
-    this.calcularValorTotal(produto, Movimento.DEBITO);
-    this.calcularQuantidadeTotal(produto, Movimento.DEBITO);
-    this.atualizaQuantidadeNoCarrinho();
+    let remover = confirm("Deseja realmente remover o produto do carrinho?");
+    if (remover) {
+      Carrinho.remover(produto);
+      this.calcularValorTotal(produto, Movimento.DEBITO);
+      this.calcularQuantidadeTotal(produto, Movimento.DEBITO);
+      this.atualizaQuantidadeNoCarrinho();
+    }
   }
 
   verificaItensNoCarrinho(): void {
@@ -304,5 +307,12 @@ export default class Car extends Vue {
   display: flex;
   align-items: center;
   justify-content: flex-start;
+}
+
+@media screen and (max-width: 768px) {
+  .carrinho {
+    width: 100%;
+    padding: 0px;
+  }
 }
 </style>
