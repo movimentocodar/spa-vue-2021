@@ -128,7 +128,6 @@ export default class Car extends Vue {
 
   get listarProdutos(): readonly ProdutoModel[] {
     this.listaDeprodutos = Carrinho.lista();
-
     return this.listaDeprodutos;
   }
 

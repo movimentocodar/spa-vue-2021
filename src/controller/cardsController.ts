@@ -101,7 +101,7 @@ export default class cardsController {
     const produto: IProdutoModel = {
       codigo: parseInt(codigo),
       descricao: descricao,
-      preco: parseFloat(precoTotal.toFixed(2)),
+      preco: precoTotal,
       quantidade: parseInt(quantidade),
       imagem: imagem,
       departamento: "",

@@ -12,7 +12,7 @@
         ></b-form-input>
       </b-form-group>
       <br />
-      <b-button type="submit" class="submit" variant="primary">Logar</b-button>
+      <b-button type="submit" class="submit" variant="primary">Entrar</b-button>
       <br />
       <br />
       <b-alert show>Informe o seu login do GitHub</b-alert>
