@@ -1,18 +1,41 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <div class="item-menu">
+      <label-category title="Destaques"></label-category>
+      <span v-for="(itemsdb) in items" :key="itemsdb._key">
+        <shopcard :nome="itemsdb.nome" :preco="itemsdb.preco" :estoque="itemsdb.estoque" :imagem="itemsdb.imagem" :_key="itemsdb._key"></shopcard>
+      </span>
+    </div>
+    <footer-component></footer-component>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import ShopItems from '../components/ShopItems.vue'
+import ItemsDb from '../database/Items.json'
+import LabelCategoria from '../components/sub-components/LabelCategoria.vue'
+import Footer from '../components/Footer.vue'
 
 export default {
-  name: 'Home',
-  components: {
-    HelloWorld
+  data(){
+    return{
+      "items": ItemsDb,
+    }
+  },
+
+  components:{
+    "shopcard": ShopItems,
+    "label-category": LabelCategoria,
+    "footer-component": Footer
   }
 }
 </script>
+
+<style scoped>
+.item-menu{
+  width: 848px;
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 70px;
+}
+</style>
