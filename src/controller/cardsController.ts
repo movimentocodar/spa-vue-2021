@@ -2,8 +2,8 @@ import produtoServices from "@/services/produtoServices";
 import ProdutoModel, { IProdutoModel } from "../model/Produto";
 
 export default class cardsController {
-    static produtos: ProdutoModel[];
-    public static validaQuantidade(e: KeyboardEvent): void {
+  static produtos: ProdutoModel[];
+  public static validaQuantidade(e: KeyboardEvent): void {
     const el: HTMLInputElement = e.target as HTMLInputElement;
     const qtd: number = parseInt(el.value, 10);
 
@@ -11,7 +11,6 @@ export default class cardsController {
       el.setAttribute("value", "1");
     }
 
-  
     const elemento = el.parentElement.parentElement;
     const element = el.parentElement.parentElement.parentElement;
     const input = elemento.querySelectorAll("input").item(0);
@@ -26,17 +25,22 @@ export default class cardsController {
     }
   }
 
-  public static async  getProdutos(): Promise<ProdutoModel[]> {
+  public static async getProdutos(): Promise<ProdutoModel[]> {
     return await produtoServices
       .getProdutos()
       .then((res) => (this.produtos = res));
   }
 
-
   public static somenteNumeros(e: KeyboardEvent): void {
     const el: HTMLInputElement = e.target as HTMLInputElement;
 
-    if (e.key === "," || e.key === "." || e.key === "+" || e.key === "-" || e.key == "0") {
+    if (
+      e.key === "," ||
+      e.key === "." ||
+      e.key === "+" ||
+      e.key === "-" ||
+      e.key == "0"
+    ) {
       e.preventDefault();
     }
 
@@ -83,8 +87,9 @@ export default class cardsController {
       .querySelector("[data-produto-imagem]")
       .getAttribute("data-produto-imagem");
 
-    const descricao = elemento.querySelector("[data-produto-descricao]")
-      .textContent;
+    const descricao = elemento.querySelector(
+      "[data-produto-descricao]"
+    ).textContent;
 
     const preco = elemento.querySelector("[data-produto-preco]").textContent;
 
@@ -96,7 +101,7 @@ export default class cardsController {
     const produto: IProdutoModel = {
       codigo: parseInt(codigo),
       descricao: descricao,
-      preco: precoTotal.toString(),
+      preco: parseFloat(precoTotal.toFixed(2)),
       quantidade: parseInt(quantidade),
       imagem: imagem,
       departamento: "",

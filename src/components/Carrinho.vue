@@ -80,7 +80,7 @@ import { Movimento } from "../model/enum";
 
 @Component
 export default class Car extends Vue {
-  private listaDeprodutos: readonly ProdutoModel[] = [] as ProdutoModel[];
+  private listaDeprodutos: readonly ProdutoModel[];
   private quantidadeTotal = 0;
   private valorTotal = 0;
 
@@ -114,17 +114,21 @@ export default class Car extends Vue {
   calculaCompra(): void {
     this.quantidadeTotal = 0;
     this.valorTotal = 0;
-    this.listaDeprodutos.forEach((produto) => {
-      this.quantidadeTotal += produto.quantidade;
-    });
-
-    this.listaDeprodutos.forEach((produto) => {
-      this.valorTotal += parseFloat(produto.preco);
-    });
+    const quantidadeTotalProduto = this.listaDeprodutos.reduce(
+      (soma, produto) => soma + produto.quantidade,
+      0
+    );
+    this.quantidadeTotal = quantidadeTotalProduto;
+    const valorTotalProduto = this.listaDeprodutos.reduce(
+      (soma, produto) => soma + parseFloat(produto.preco.toFixed(2)),
+      0
+    );
+    this.valorTotal = parseFloat(valorTotalProduto.toFixed(2));
   }
 
   get listarProdutos(): readonly ProdutoModel[] {
     this.listaDeprodutos = Carrinho.lista();
+
     return this.listaDeprodutos;
   }
 

@@ -33,9 +33,9 @@ export abstract class Carrinho {
     movimento: Movimento
   ): number {
     if (movimento == Movimento.CREDITO) {
-      this.vlrTotal += parseFloat(produto.preco);
+      this.vlrTotal += parseFloat(produto.preco.toFixed(2));
     } else {
-      this.vlrTotal -= parseFloat(produto.preco);
+      this.vlrTotal -= parseFloat(produto.preco.toFixed(2));
     }
 
     return parseFloat(this.vlrTotal.toFixed(2));
