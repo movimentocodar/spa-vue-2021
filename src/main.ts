@@ -14,6 +14,7 @@ import '@kouts/vue-modal/dist/vue-modal.css'
 
 
 Vue.config.productionTip = false;
+Vue.config.devtools = true
 Vue.use(VueAxios, axios, VueModal)
 
 Vue.component('Modal', VueModal)
