@@ -162,7 +162,6 @@ h1 {
   background-color: #f2f2f2;
   padding: 20px;
   width: 50%;
-  /* margin-top: 8%; */
 }
 
 label {

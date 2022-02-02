@@ -3,17 +3,17 @@
     <section class="produtos">
       <div class="navegacao">
         <p>Onde você está > Departamento:</p>
-        <p data-navegacao>{{ valorDepartamento }}</p>
+        <p>{{ departamento }}</p>
       </div>
 
       <h2>Destaque</h2>
 
-      <div class="listaProdutos" data-lista-produtos>
-        <Cards></Cards>
+      <div class="listaProdutos">
+        <Card></Card>
       </div>
     </section>
 
-    <section class="carrinho" data-secao-carrinho>
+    <section class="carrinho">
       <Carrinho></Carrinho>
     </section>
   </div>
@@ -21,33 +21,19 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import Cards from "../components/Cards.vue";
+import Card from "../components/Card.vue";
 import Carrinho from "../components/Carrinho.vue";
-import { EventBus } from "../eventBus";
-
+import Store from "../store/Store";
 @Component({
   components: {
-    Cards,
+    Card,
     Carrinho,
   },
 })
 export default class Home extends Vue {
-  valorDepartamento = "Todos";
-
-  methods(): void {
-    this.botaoDepartamento;
-  }
-
-  created(): void {
-    const _this = this;
-
-    EventBus.$on("botaoDepartamento", function (valor: string) {
-      _this.valorDepartamento = valor;
-    });
-  }
-
-  botaoDepartamento(valor: string): void {
-    this.valorDepartamento = valor;
+ 
+ get departamento(): string {
+    return Store.getDepartamento;
   }
 }
 </script>
