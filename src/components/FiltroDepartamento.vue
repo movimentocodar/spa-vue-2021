@@ -1,77 +1,46 @@
 <template>
-  <ul
-    @click="produtoP($event.target)"
-    class="menu__list r-list"
-    data-departamento
-  >
-    <li class="menu__group">
+  <ul class="menu__list r-list">
+    <li
+      class="menu__group"
+      v-for="(departamento, index) in listaDepartamentos"
+      v-bind:key="index"
+    >
       <router-link
         to="/"
         href="#0"
+        @click.prevent="filtrarDepartamento(departamento)"
         class="menu__link r-link text-underlined"
-        data-departamento="Todos"
-        >Todos os departamentos</router-link
       >
-    </li>
-    <li class="menu__group">
-      <router-link
-        to="/"
-        href="#0"
-        class="menu__link r-link text-underlined"
-        data-departamento="hortifruti"
-        >Hortifruti</router-link
-      >
-    </li>
-    <li class="menu__group">
-      <router-link
-        to="/"
-        href="#0"
-        class="menu__link r-link text-underlined"
-        data-departamento="bebidas"
-        >Bebidas</router-link
-      >
-    </li>
-    <li class="menu__group">
-      <router-link
-        to="/"
-        href="#0"
-        class="menu__link r-link text-underlined"
-        data-departamento="mercearia"
-        >Mercearia</router-link
-      >
-    </li>
-    <li class="menu__group">
-      <router-link
-        to="/"
-        href="#0"
-        class="menu__link r-link text-underlined"
-        data-departamento="padaria"
-        >Padaria</router-link
-      >
-    </li>
-    <li class="menu__group">
-      <router-link
-        to="/"
-        href="#0"
-        class="menu__link r-link text-underlined"
-        data-departamento="congelados"
-        >Congelados</router-link
-      >
+        <a @click.prevent="filtrarDepartamento(departamento)">{{
+          departamento
+        }}</a>
+      </router-link>
     </li>
   </ul>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { EventBus } from "../eventBus";
+
+import ProdutoStore from "../store/Store";
 
 @Component
 export default class FiltroDepartamento extends Vue {
-  produtoP(departamento: HTMLLinkElement): void {
-    const departamentoLink =
-      departamento.attributes.getNamedItem("data-departamento").textContent;
+  private departamentos = [
+    "Todos os departamentos",
+    "Hortifruti",
+    "Bebidas",
+    "Mercearia",
+    "Padaria",
+    "Congelado",
+  ];
 
-    EventBus.$emit("botaoDepartamento", departamentoLink);
+  get listaDepartamentos(): string[] {
+    return this.departamentos;
+  }
+
+  filtrarDepartamento(departamento: string): void {
+    ProdutoStore.listaPorDepartamento(departamento);
   }
 }
 </script>
