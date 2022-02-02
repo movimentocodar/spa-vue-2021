@@ -1,12 +1,11 @@
 <template>
-  <form data-form>
-    <div data-form-pesquisa>
+  <form>
+    <div>
       <input
         type="search"
         id="busca"
         name="busca"
-        v-on:input="produtoInformado($event.target.value)"
-        data-filtrar-produto
+        v-on:input.prevent="filtrarProduto($event.target.value)"
         placeholder="Pesquise por produto..."
       /><svg alt="lupa"></svg>;
     </div>
@@ -15,14 +14,15 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { EventBus } from "../eventBus";
+import { Produto } from "../model/Produto";
+import Store from "../store/Store";
 
 @Component
 export default class Pesquisa extends Vue {
-  private filtro = "";
+  private produtos: Produto;
 
-  produtoInformado(produto: string): void {
-    EventBus.$emit("inputPesquisa", (this.filtro = produto));
+  filtrarProduto(produto: string): void {
+    Store.listaPorDescricao(produto);
   }
 }
 </script>
@@ -98,10 +98,10 @@ form div button:hover {
     margin: 0px;
   }
 
-
   form svg {
     left: 81%;
-    top: 6px
+    top: 6px;
   }
 }
 </style>
+*/
