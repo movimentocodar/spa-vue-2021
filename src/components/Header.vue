@@ -1,23 +1,7 @@
 <template>
   <header>
     <div>
-      <b-alert
-        :show="dismissCountDown"
-        variant="warning"
-        @dismissed="dismissCountDown = 0"
-        @dismiss-count-down="countDownChanged"
-      >
-        <p class="mensagem">
-          {{ mensagem }}
-          {{ dismissCountDown }} seconds...
-        </p>
-        <b-progress
-          variant="warning"
-          :max="dismissSecs"
-          :value="dismissCountDown"
-          height="4px"
-        ></b-progress>
-      </b-alert>
+      <Mensagem :mensagemProp="mensagemProp"></Mensagem>
 
       <ul class="atendimento">
         <li>Compre pelo tel: 0800 123 4500</li>
@@ -27,13 +11,13 @@
         <li>
           <router-link to="/">Home</router-link> |
           <router-link to="/contato">Contato</router-link>
-          <a
-            v-if="usuario.avatar_url != undefined"
+          <router-link
+            v-if="usuario.name != ''"
             class="sair"
-            @click="deslogar"
-            to="/Home"
+            @click.native="deslogar"
+            to="/"
           >
-            | Sair</a
+            | Sair</router-link
           >
         </li>
       </ul>
@@ -56,29 +40,16 @@
       <Pesquisa></Pesquisa>
 
       <nav class="cabecalhoPrincipal-nav">
-        <svg v-if="usuario.avatar_url == undefined" alt="user"></svg>
-        <img else :src="usuario.avatar_url" />
-
-        <a href="" @click.prevent="modalOpen(true)">
-          {{ usuario.name == undefined ? "Login" : usuario.name }}</a
-        >
-
-        <Modal
-          :based-on="showModal"
-          title="Hugoogle Supermercado"
-          @close="showModal = modalOpen(false)"
-        >
-          <Login @usuario-git="usuarioGit"></Login>
-        </Modal>
+        <Login></Login>
 
         <div>
           <svg alt="carrinho"></svg>
-          <span data-carrinho-quantidade-itens> {{ quantidade }} </span>
+          <span> {{ quantidade }} </span>
         </div>
       </nav>
     </div>
 
-    <nav class="page__menu menu" data-menu-departamento>
+    <nav class="page__menu menu">
       <FiltroDepartamento></FiltroDepartamento>
     </nav>
   </header>
@@ -86,73 +57,39 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import Pesquisa from "./Pesquisa.vue";
+import Pesquisa from "../components/Pesquisa.vue";
 import FiltroDepartamento from "./FiltroDepartamento.vue";
-import Usuario from "../model/Usuario";
-import { EventBus } from "../eventBus";
 import Login from "../components/Login.vue";
+import Store from "../store/Store";
+import Mensagem from "../components/Mensagem.vue";
+import StoreLogin from "../store/StoreLogin";
+import Usuario from "@/model/Usuario";
 
 @Component({
   components: {
     Pesquisa,
     FiltroDepartamento,
     Login,
+    Mensagem,
   },
 })
 export default class Header extends Vue {
-  private usuario = {} as Usuario;
-  private departamento = "";
   private showModal = false;
-  private dismissSecs = 5;
-  private dismissCountDown = 0;
-  private mensagem = "";
 
-  methods(): void {
-    this.usuarioGit(this.usuario, this.showModal);
-    this.modalOpen;
-    this.countDownChanged;
+  get usuario(): Usuario {
+    return StoreLogin.getUsuario;
   }
 
-  countDownChanged(dismissCountDown: number): void {
-    this.dismissCountDown = dismissCountDown;
-  }
-
-  showAlert(): void {
-    this.dismissCountDown = this.dismissSecs;
-  }
-
-  created(): void {
-    const _this = this;
-    EventBus.$on("carrinho-finaliza", function (mensagem: string) {
-      _this.showAlert();
-      _this.mensagem = mensagem;
-    });
-  }
-
-  modalOpen(estado: boolean): boolean {
-    return (this.showModal = estado);
-  }
-
-  getDepartamento(): void {
-    const _this = this;
-
-    EventBus.$on("botaoDepartamento", function (valor: string) {
-      _this.departamento = valor;
-    });
-  }
-
-  deslogar(): void {
-    this.usuario.avatar_url = undefined;
-    this.usuario.name = undefined;
+  get mensagemProp(): string {
+    return Store.mensagemStore;
   }
 
   get quantidade(): number {
-    return this.$store.getters.quantidade;
+    return Store.quantidadeTotal;
   }
 
-  usuarioGit(usuario: Usuario, hideModal: boolean): void {
-    this.usuario = usuario;
-    this.showModal = hideModal;
+  deslogar(): void {
+    StoreLogin.deslogar();
   }
 }
 </script>
@@ -162,10 +99,6 @@ header {
   background: #ffffff;
   padding: 20px;
   box-shadow: 0 5px 10px 0px #6b6b6b;
-}
-
-.mensagem {
-  text-align: center;
 }
 
 .atendimento li {
@@ -192,20 +125,6 @@ a {
 
 h1 img {
   width: 200px;
-}
-
-nav img {
-  width: 14%;
-  border-radius: 50%;
-}
-nav svg {
-  width: 48px;
-  height: 33px;
-  background: url(../assets/imagem/svg/user.svg) 0 0 no-repeat;
-}
-
-nav a {
-  padding: 0px 10px;
 }
 
 header div nav div svg {
@@ -244,6 +163,7 @@ nav div span {
 .cabecalhoPrincipal-nav {
   display: flex;
   align-items: center;
+  margin: 15px;
 }
 
 .cabecalhoPrincipal .container {
@@ -270,14 +190,10 @@ nav div span {
   .cabecalhoPrincipal {
     flex-direction: column;
   }
-  .cabecalhoPrincipal-nav {
-    margin: 15px;
-  }
 
   .atendimento {
     flex-direction: column;
     text-align: center;
   }
-
 }
 </style>
