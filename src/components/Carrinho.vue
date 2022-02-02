@@ -2,10 +2,10 @@
   <div class="carrinho-lista">
     <h3>Carrinho</h3>
 
-    <ul data-carrinho-lista="">
+    <ul>
       <li
         class="carrinho-compras-lista"
-        v-for="(produto, index) in listarProdutos"
+        v-for="(produto, index) in carrinho"
         v-bind:key="index"
       >
         <img
@@ -14,179 +14,67 @@
           class="carrinho-compras-produto"
         />
         <div class="carrinho-compras-item">
-          <p
-            class="carrinho-compras-descricao"
-            :data-carrinho-produto="produto.descricao"
-          >
+          <p class="carrinho-compras-descricao">
             {{ produto.descricao }}
           </p>
-          <p
-            :data-carrinho-quantidade="produto.quantidade"
-            class="carrinho-compras-quantidade"
-          >
+          <p class="carrinho-compras-quantidade">
             Qtd.: {{ produto.quantidade }} und.
           </p>
-          <p
-            :data-carrinho-valor="produto.preco"
-            class="carrinho-compras-valor"
-          >
-            R$ {{ produto.preco }}
+          <p class="carrinho-compras-valor">
+            R$ {{ produto.preco }} x {{ produto.quantidade }} =
+            {{ produto.precoTotal }}
           </p>
         </div>
         <button
           class="carrinho-compras-excluir"
-          :data-produto="produto"
-          :data-carrinho-excluir="index"
-          @click="remover(produto)"
+          @click.prevent="removerProdutoDoCarrinho(produto)"
         ></button>
       </li>
     </ul>
 
-    <div class="compras-carrinho-finalizar" data-compras-carrinho="">
-      <p
-        class="compras-carrinho-vazio"
-        data-carrinho-vazio=""
-        v-show="listaDeprodutos.length === 0"
-      >
-        Carrinho Vazio!
-      </p>
+    <div class="compras-carrinho-finalizar">
+      <p class="compras-carrinho-vazio" v-if="!quantidade">Carrinho Vazio!</p>
       <div class="compras-carrinho-total">
         <p>Valor Total:</p>
-        <p data-carrinho-total="">R$ {{ valorTotalDeProdutos }}</p>
+        <p>R$ {{ total }}</p>
       </div>
       <div class="compras-carrinho-total">
-        <p>Quantidade Total:</p>
-        <p data-carrinho-quantidade-total="">
-          {{ quantidadeTotalDeProdutos }} und.
+        <p>Quantidade Total de Item(s):</p>
+        <p>
+          {{ quantidade }}
         </p>
       </div>
-      <button
-        class="card button"
-        data-finalizar-compra=""
-        @click="verificaItensNoCarrinho"
-      >
-        Finalizar
-      </button>
+      <button class="card button" @click="finalizarCompra()">Finalizar</button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { EventBus } from "../eventBus";
-import { Carrinho } from "../controller/carrinhoController";
-import ProdutoModel from "../model/Produto";
-import { Movimento } from "../model/enum";
+import { Produto } from "../model/Produto";
+import Store from "../store/Store";
+import { Carrinho } from "../model/Carrinho";
 
 @Component
-export default class Car extends Vue {
-  private listaDeprodutos: readonly ProdutoModel[];
-  private quantidadeTotal = 0;
-  private valorTotal = 0;
-
-  methods(): void {
-    this.submit;
+export default class CarrinhoDeCompras extends Vue {
+  get carrinho(): Carrinho[] {
+    return Store.getCarrinho;
   }
 
-  created(): void {
-    const _this = this;
-    EventBus.$on("submit", function (produto: ProdutoModel) {
-      Carrinho.adiciona(produto);
-      _this.calcularQuantidadeTotal(produto, Movimento.CREDITO);
-      _this.calcularValorTotal(produto, Movimento.CREDITO);
-      _this.atualizaQuantidadeNoCarrinho();
-      Carrinho.verificarResolucao();
-    });
+  get total(): string {
+    return Store.valorTotalNoCarrinho.toFixed(2);
   }
 
-  destroyed(): void {
-    EventBus.$off("submit");
+  get quantidade(): number {
+    return Store.quantidadeTotal;
   }
 
-  submit(produto: ProdutoModel): void {
-    Carrinho.adiciona(produto);
+  removerProdutoDoCarrinho(produto: Produto): void {
+    Store.excluirProdutoDoCarrinho(produto);
   }
 
-  mounted(): void {
-    this.calculaCompra();
-  }
-
-  calculaCompra(): void {
-    this.quantidadeTotal = 0;
-    this.valorTotal = 0;
-    const quantidadeTotalProduto = this.listaDeprodutos.reduce(
-      (soma, produto) => soma + produto.quantidade,
-      0
-    );
-    this.quantidadeTotal = quantidadeTotalProduto;
-    const valorTotalProduto = this.listaDeprodutos.reduce(
-      (soma, produto) => soma + parseFloat(produto.preco.toFixed(2)),
-      0
-    );
-    this.valorTotal = parseFloat(valorTotalProduto.toFixed(2));
-  }
-
-  get listarProdutos(): readonly ProdutoModel[] {
-    this.listaDeprodutos = Carrinho.lista();
-    return this.listaDeprodutos;
-  }
-
-  get quantidadeTotalDeProdutos(): number {
-    return this.quantidadeTotal;
-  }
-
-  get valorTotalDeProdutos(): number {
-    return parseFloat(this.valorTotal.toFixed(2));
-  }
-
-  calcularQuantidadeTotal(produto: ProdutoModel, movimento: Movimento): void {
-    this.quantidadeTotal = Carrinho.quantidadeTotal(produto, movimento);
-  }
-
-  calcularValorTotal(produto: ProdutoModel, movimento: Movimento): void {
-    this.valorTotal = Carrinho.valorTotal(produto, movimento);
-  }
-
-  remover(produto: ProdutoModel): void {
-    let remover = confirm("Deseja realmente remover o produto do carrinho?");
-    if (remover) {
-      Carrinho.remover(produto);
-      this.calcularValorTotal(produto, Movimento.DEBITO);
-      this.calcularQuantidadeTotal(produto, Movimento.DEBITO);
-      this.atualizaQuantidadeNoCarrinho();
-    }
-  }
-
-  verificaItensNoCarrinho(): void {
-    if (this.quantidadeTotal != 0) {
-      let remover = confirm("Deseja realmente finalizar o pedido?");
-
-      remover == true ? this.finalizar() : false;
-    }
-  }
-
-  finalizar(): void {
-    try {
-      Carrinho.finalizar();
-      EventBus.$emit(
-        "carrinho-finaliza",
-        "Pedido enviado com sucesso, já estamos preparando o seu pedido, volte sempre!"
-      );
-      this.quantidadeTotal = 0;
-      this.valorTotal = 0;
-      this.$store.state.quantidade = this.valorTotal;
-    } catch (error) {
-      EventBus.$emit("carrinho-finaliza", error);
-    }
-    window.scrollTo(0, 0);
-  }
-
-  get contador(): number {
-    return this.$store.getters.quantidade;
-  }
-
-  atualizaQuantidadeNoCarrinho(): void {
-    this.$store.dispatch("atualizaQuantidadeNoCarrinho", this.quantidadeTotal);
+  finalizarCompra(): void {
+    Store.finalizarPedido();
   }
 }
 </script>
