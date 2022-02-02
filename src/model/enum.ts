@@ -1,6 +1,5 @@
 export const enum Movimento {
-    CREDITO= 'CREDITO',
-    DEBITO = 'DEBITO'
-  }
+  CREDITO = 'CREDITO',
+  DEBITO = 'DEBITO',
 
- 
+}
