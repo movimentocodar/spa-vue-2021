@@ -7,7 +7,7 @@ import {
 } from "vuex-module-decorators";
 import { store } from "./index";
 import http from "../api/httpPlaceHolder";
-import { Produto } from "../model/Produto";
+import { Produto, ProdutoCard } from "../model/Produto";
 import { Carrinho } from "@/model/Carrinho";
 import { Movimento } from "@/model/enum";
 import { AxiosError } from "axios";
@@ -22,14 +22,14 @@ import StoreLogin from "../store/StoreLogin";
 })
 class Stor extends VuexModule {
   private produtos: Produto[] = [];
-  produtosFiltrados: Produto[];
-  carrinhoItem: Carrinho[] = [];
+  private produtosFiltrados: Produto[];
+  private carrinhoItem: Carrinho[] = [];
   private temporizador = 0;
   private mensagem = "";
   private dismissCountDown = 0;
   private departamento = "";
 
-  get getProdutos() {
+  get getProdutos(): ProdutoCard[] {
     return this.produtos.map((p) => {
       return {
         codigo: p.codigo,
@@ -268,7 +268,7 @@ class Stor extends VuexModule {
 
   @Mutation
   fecharPedido() {
-    this.carrinhoItem.splice(0, this.produtos.length);
+    this.carrinhoItem.splice(0, this.carrinhoItem.length);
     window.scrollTo(0, 0);
     this.mensagem = "Pedido sendo processodo, por favor aguarde!";
     this.temporizador = 5;
