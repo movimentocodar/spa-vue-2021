@@ -6,11 +6,3 @@ export interface Carrinho {
   preco: number;
   precoTotal: number;
 }
-
-export interface CarrinhoItem {
-  codigo: number;
-  descricao: string;
-  imagem: string;
-  quantidade: number;
-  preco: number;
-}
