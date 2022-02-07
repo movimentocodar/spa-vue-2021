@@ -8,3 +8,10 @@ export interface Produto {
     departamento: string;
   }
   
+export interface ProdutoCard {
+  codigo: number;
+  imagem: string;
+  descricao: string;
+  quantidade: number;
+  preco: number;
+}
