@@ -2,7 +2,7 @@
   <div class="listaProdutos">
     <div class="card" v-for="produto in produtos" v-bind:key="produto.codigo">
       <div class="card-body">
-        <img :src="produto.imagem" class="card-img-top" :alt="produto.imagem" />
+        <img :src="produto.imagem" class="card-img-top" alt="Imagem ilustrativa do produto" />
         <p>{{ produto.descricao }}</p>
         <p class="card-price">R$ {{ produto.preco }}</p>
         <div class="input-group input-number-group">
@@ -36,16 +36,16 @@
 </template>
 
 <script lang="ts">
-import { CarrinhoItem } from "@/model/Carrinho";
 import { Component, Vue } from "vue-property-decorator";
 import { Movimento } from "../model/enum";
-import { Produto } from "../model/Produto";
+import { Produto, ProdutoCard } from "../model/Produto";
 import ProdutoStore from "../store/Store";
 import ValidaCampoInput from "../util/validaCampoInput"
 
 @Component
 export default class Card extends Vue {
-  get produtos(): CarrinhoItem[] {
+
+  get produtos(): ProdutoCard[] {
     return ProdutoStore.getProdutos;
   }
 
