@@ -13,7 +13,7 @@ export default class validaCampoInput {
   public static quantidadeInvalida(e: KeyboardEvent): void {
     const el: HTMLInputElement = e.target as HTMLInputElement;
     if (el.value === "0") {
-      alert("Não é possivel informar a quantidade zero" + el.value);
+      alert("Não é possivel informar a quantidade zero!");
     }
   }
 }
